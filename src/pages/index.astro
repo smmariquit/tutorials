@@ -1,0 +1,295 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+
+const talks = [
+  { icon: '🤖', title: 'AI Use Cases That Actually Matter', venue: 'Data Engineering Pilipinas', link: 'https://stimmie.dev/talks/dep-ai-use-cases-that-actually-matter' },
+  { icon: '📊', title: 'What is Data Science?', venue: 'UPLB DSG × UPRHS CodeIT Workshop', link: 'https://stimmie.dev/talks/dsg-codeit-day1-what-is-data-science' },
+  { icon: '📖', title: 'Storytelling with Data', venue: 'UPLB DSG × UPRHS CodeIT Workshop', link: 'https://stimmie.dev/talks/dsg-codeit-day2-storytelling-with-data' },
+  { icon: '🎤', title: 'Winning by Talking', venue: 'NextStep Hacks 2025', link: 'https://stimmie.dev/talks/nextstep-hacks-2025-winning-by-talking' },
+  { icon: '🐍', title: 'Machine Learning with Python', venue: 'JPCS QCU Logic Unlocked', link: 'https://stimmie.dev/talks/jpcs-qcu-logic-unlocked-ml-with-python' },
+  { icon: '🎨', title: 'Data Storytelling with Canva', venue: 'UPLB DSG', link: 'https://stimmie.dev/talks/dsg-applicants-data-storytelling-canva' },
+  { icon: '⚡', title: 'Agile Edge: Swift Project Workflows', venue: 'DLSU ECES', link: 'https://stimmie.dev/talks/dlsu-eces-agile-edge-swift-project-workflows' },
+  { icon: '🧠', title: 'ML Workshop: Iris Classification', venue: 'Org Applicants', link: 'https://workshops.stimmie.dev/ml-iris-slides' },
+  { icon: '📈', title: 'Python in Research', venue: 'UST', link: 'https://workshops.stimmie.dev/python' },
+  { icon: '🏫', title: 'Machine Learning Workshop', venue: 'Saint Michael\'s College of Laguna' },
+];
+
+const subjects = [
+  {
+    emoji: '🧮', name: 'Mathematics',
+    desc: 'Foundations in algebra, calculus, and discrete mathematics for any university curriculum.',
+    topics: [
+      { general: 'Algebra & Trigonometry', uplb: 'MATH 17' },
+      { general: 'Differential & Integral Calculus', uplb: 'MATH 27 & 28' },
+      { general: 'Discrete Mathematical Structures', uplb: 'CMSC 56 & 57' },
+    ],
+  },
+  {
+    emoji: '💻', name: 'Computer Science & Programming',
+    desc: 'Core computer science theory, algorithms, and practical programming fundamentals.',
+    topics: [
+      { general: 'Fundamentals & OOP', uplb: 'CMSC 21 & 22' },
+      { general: 'Data Structures', uplb: 'CMSC 123' },
+      { general: 'Theory of Computation', uplb: 'CMSC 141' },
+      { general: 'Design & Analysis of Algorithms', uplb: 'CMSC 142' },
+      { general: 'Web Programming', uplb: 'CMSC 100' },
+    ],
+  },
+  {
+    emoji: '📊', name: 'Data & Statistics',
+    desc: 'Data analysis, applied statistics, and machine learning workflows.',
+    topics: [
+      { general: 'Probability & Statistics Fundamentals', uplb: 'STAT 101' },
+      { general: 'Data Manipulation (Pandas, NumPy)' },
+      { general: 'Data Visualization & Storytelling' },
+      { general: 'Introductory Machine Learning (Scikit-learn)' },
+    ],
+  },
+  {
+    emoji: '📝', name: 'K-12 & CET Review',
+    desc: 'I can teach pretty much anything in the K-12 curriculum. I also passed UPCA, ACET, DCAT, and the DOST Scholarship Exam.',
+    topics: [
+      { general: 'College Entrance Test (CET) Prep' },
+      { general: 'DOST Scholarship Qualifying Exam Prep' },
+      { general: 'JHS / SHS Mathematics' },
+      { general: 'JHS / SHS Science' },
+    ],
+  },
+  {
+    emoji: '🛠️', name: 'Languages & Tools',
+    desc: 'The actual tech stack I use to build production apps and win hackathons.',
+    topics: [
+      { general: 'Python' },
+      { general: 'JavaScript & TypeScript' },
+      { general: 'C & C++' },
+      { general: 'SQL' },
+      { general: 'HTML & CSS' },
+      { general: 'React, Next.js, Astro & Vite' },
+    ],
+  }
+];
+
+const orgs = [
+  'UP Data Science Society (Education & Research)',
+  'UPLB Data Science Guild (External Affairs)',
+  'Alliance of CS Students (UPLB) (Academic Affairs)',
+  'UP Algorithms++ (Competitive Programming)',
+  'UPLB Eliens (Competitive Programming)',
+  'Data Engineering Pilipinas',
+  'UPLB Gavel Club',
+  'Pizza & Friends (co-founder)',
+];
+---
+
+<Layout title="Stimmie Tutoring — Math, CS & Programming">
+  <!-- Nav -->
+  <nav class="nav" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">stimmie<span>.tutor</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#credentials">Credentials</a></li>
+        <li><a href="#subjects">Subjects</a></li>
+        <li><a href="#talks">Talks</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#book" class="btn btn-primary" style="padding:6px 14px;font-size:0.82rem;">Book a Session</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero container" id="hero">
+    <div class="hero-badge">Accepting new students (Online or F2F in Laguna)</div>
+    <h1>Learn Math, CS &amp; Programming from someone who actually does it.</h1>
+    <p>
+      I'm <strong>Stimmie</strong>, a Computer Science student at UP Los Baños. I'm a workshop speaker, competitive programmer, and I build stuff. I tutor the way I wish I was taught: clear, practical, and no BS.
+    </p>
+    <div class="hero-cta">
+      <a href="#pricing" class="btn btn-primary">See Pricing</a>
+      <a href="#credentials" class="btn btn-outline">View Credentials</a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section container" id="about">
+    <div class="section-label">About Me</div>
+    <h2 class="section-title">Simonee Ezekiel Mariquit</h2>
+    <p class="section-desc">
+      Most people call me <strong>Stimmie</strong>. I'm a BS CS student at <strong>UPLB</strong> and a DOST-SEI scholar. I've taught workshops all over the country, joined a bunch of hackathons, and built software for real clients.
+    </p>
+    <p class="section-desc">
+      Through <strong>TutorHub</strong> and personal tutoring, I teach math, programming, CS theory, and data science. Whether you're crammed for a major exam, stuck on a hard concept, or just want to build something cool, I got you.
+    </p>
+
+    <div class="section-label" style="margin-top:32px;">Active Organizations</div>
+    <div class="orgs-flex">
+      {orgs.map(org => <span class="org-tag">{org}</span>)}
+    </div>
+  </section>
+
+  <!-- Credentials -->
+  <section class="section container" id="credentials">
+    <div class="section-label">Credentials</div>
+    <h2 class="section-title">Why me?</h2>
+    <p class="section-desc">Actual experience, not just textbook knowledge.</p>
+
+    <div class="cred-grid">
+      <div class="cred-card">
+        <div class="cred-icon">🎓</div>
+        <h3>BS Computer Science, UP Los Baños</h3>
+        <p>Currently studying at one of the top CS programs in the country. DOST-SEI scholar.</p>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">🏆</div>
+        <h3>30+ Hackathons & Game Jams</h3>
+        <p>Competed in and organized hackathons, building under pressure with real deadlines.</p>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">⚔️</div>
+        <h3>Competitive Programmer</h3>
+        <p>Active on Codeforces with a rated profile. Member of UP Algorithms++.</p>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">🎤</div>
+        <h3>10+ Talks & Workshops</h3>
+        <p>Spoken at DLSU, QCU, SMCL, UPRHS, and community events on ML, data science, and agile.</p>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">🔬</div>
+        <h3>Research Exposure</h3>
+        <p>Been to multiple research labs and group sessions, presenting technical papers on data analytics.</p>
+      </div>
+      <div class="cred-card">
+        <div class="cred-icon">💼</div>
+        <h3>Freelance Software Engineer</h3>
+        <p>Professional experience building web apps, APIs, and automation for real clients.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subjects -->
+  <section class="section container" id="subjects">
+    <div class="section-label">What I Teach</div>
+    <h2 class="section-title">Course Focus</h2>
+    <p class="section-desc">University-agnostic tutoring tailored to key concepts. (UPLB equivalents provided if you go there).</p>
+
+    <div class="subjects-grid">
+      {subjects.map(s => (
+        <div class="subject-card">
+          <div class="subject-emoji">{s.emoji}</div>
+          <h3>{s.name}</h3>
+          <p>{s.desc}</p>
+          <div class="subject-topics">
+            {s.topics.map(t => (
+              <div class="topic-tag">
+                {t.uplb && <span class="code">UPLB eqv: {t.uplb}</span>}
+                <span>{t.general}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Talks -->
+  <section class="section container" id="talks">
+    <div class="section-label">Speaking & Workshops</div>
+    <h2 class="section-title">Talks I've Given</h2>
+    <p class="section-desc">I actually enjoy teaching concepts at scale.</p>
+
+    <div class="talks-list">
+      {talks.map(t => (
+        <a href={t.link || '#'} class="talk-item" target={t.link ? '_blank' : undefined} rel={t.link ? 'noopener' : undefined}>
+          <span class="talk-icon">{t.icon}</span>
+          <div class="talk-info">
+            <h4>{t.title}</h4>
+            <p>{t.venue}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section container" id="pricing">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Rates & Packages</h2>
+    <p class="section-desc">Sessions are 1 hour long. I mostly tutor online, but can do face-to-face if you're around Biñan or Los Baños, Laguna. Group sessions are capped at 3 people max.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-label">Solo Online</div>
+        <div class="price-amount">₱400 <span>/ hr</span></div>
+        <div class="price-sub">1-on-1 focused session</div>
+        <ul class="price-features">
+          <li>Personalized pacing</li>
+          <li>Screen sharing & live coding</li>
+          <li>Session notes provided</li>
+          <li>Chat support between sessions</li>
+        </ul>
+        <a href="#book" class="btn btn-outline" style="width:100%;justify-content:center;">Book Solo</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-label">Group Online</div>
+        <div class="price-amount">₱300 <span>/ hr per head</span></div>
+        <div class="price-sub">2 to 3 students, split the cost</div>
+        <ul class="price-features">
+          <li>Same quality, lower per-person rate</li>
+          <li>Collaborative problem-solving</li>
+          <li>Screen sharing & live coding</li>
+          <li>Shared session notes</li>
+          <li>Max 3 students per group</li>
+        </ul>
+        <a href="#book" class="btn btn-primary" style="width:100%;justify-content:center;">Book Group</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-label">Intensive Package</div>
+        <div class="price-amount">₱3,500 <span>/ 10 hrs</span></div>
+        <div class="price-sub">For exam prep or project sprints</div>
+        <ul class="price-features">
+          <li>10 hours at a discounted rate</li>
+          <li>Flexible scheduling</li>
+          <li>Priority booking</li>
+          <li>Custom study plan</li>
+        </ul>
+        <a href="#book" class="btn btn-outline" style="width:100%;justify-content:center;">Get Package</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section container" id="book">
+    <div class="cta-block">
+      <h2>Ready to start?</h2>
+      <p>Send me an email at <strong>semariquit@gmail.com</strong>, or message me directly at <a href="https://fb.com/stimmieuwu" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">fb.com/stimmieuwu</a> so we can figure out what works for you.</p>
+      <div class="hero-cta">
+        <a href="mailto:semariquit@gmail.com" class="btn btn-primary">Email Me</a>
+        <a href="https://fb.com/stimmieuwu" class="btn btn-outline" target="_blank" rel="noopener">Message on FB</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://stimmie.dev" target="_blank" rel="noopener">Portfolio</a>
+        <a href="https://github.com/smmariquit" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://codeforces.com/profile/manilaboi" target="_blank" rel="noopener">Codeforces</a>
+      </div>
+      <p>© 2026 Simonee Ezekiel Mariquit. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const links = document.getElementById('navLinks');
+    toggle?.addEventListener('click', () => links?.classList.toggle('open'));
+    links?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links?.classList.remove('open')));
+  </script>
+</Layout>
