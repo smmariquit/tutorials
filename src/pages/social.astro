@@ -1,0 +1,244 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+---
+
+<Layout title="Social Media Card">
+  <div class="social-wrapper">
+    <div class="social-card" id="capture-area">
+      <div class="card-header">
+        <div class="badge">Accepting New Students</div>
+        <h1>Tutoring: Math, CS &amp; Programming</h1>
+        <p class="subtitle">By Stimmie — UPLB CS Student, Builder &amp; Workshop Speaker</p>
+      </div>
+
+      <div class="card-body">
+        <div class="grid-section">
+          <div class="column">
+            <h3>What I Teach 📚</h3>
+            <ul>
+              <li><strong>K-12 &amp; CET Review:</strong> Math, Science, UPCA/ACET prep</li>
+              <li><strong>CS Fundamentals:</strong> Data Structures, Algos, Theory</li>
+              <li><strong>Tech Stack:</strong> Python, JS/TS, C/C++, React, SQL</li>
+              <li><strong>Data Science:</strong> Pandas, Machine Learning, Stats</li>
+            </ul>
+          </div>
+          
+          <div class="column">
+            <h3>Why me? 🚀</h3>
+            <ul>
+              <li>BS Computer Science @ UP Los Baños</li>
+              <li>DOST-SEI Scholar</li>
+              <li>10+ workshops taught nationwide</li>
+              <li>Actual experience building web apps</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="rates">
+          <div class="rate-box">
+            <span class="label">Solo</span>
+            <span class="price">₱400<span>/hr</span></span>
+          </div>
+          <div class="rate-box highlight">
+            <span class="label">Group (Max 3)</span>
+            <span class="price">₱300<span>/hr per head</span></span>
+          </div>
+        </div>
+        
+        <div class="contact-info">
+          <p>📍 Online via Discord / Zoom | F2F in Biñan or Los Baños</p>
+          <div class="links">
+            <span class="link">fb.com/stimmieuwu</span>
+            <span class="link">tutorial-stimmie.vercel.app</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* Reset background for social capture */
+  :global(body) {
+    background: #e9ecef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .social-wrapper {
+    /* Fixed 1:1 Aspect Ratio optimized for Instagram/Facebook square posts */
+    width: 1080px;
+    height: 1080px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e9ecef;
+  }
+
+  .social-card {
+    background: #ffffff;
+    width: 960px;
+    height: 960px;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid var(--border);
+  }
+
+  .badge {
+    display: inline-block;
+    background: #e7f5ff;
+    color: #1864ab;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+    border: 1px solid #a5d8ff;
+  }
+
+  .card-header h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  .subtitle {
+    font-size: 1.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .grid-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin: 40px 0;
+  }
+
+  .column h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  .column ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .column li {
+    font-size: 1.4rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    line-height: 1.5;
+  }
+
+  .column li::before {
+    content: '✓';
+    color: var(--success);
+    font-weight: 800;
+  }
+
+  .column li strong {
+    color: var(--text);
+  }
+
+  .card-footer {
+    border-top: 2px solid var(--border);
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .rates {
+    display: flex;
+    gap: 24px;
+  }
+
+  .rate-box {
+    flex: 1;
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .rate-box.highlight {
+    background: #f8fbff;
+    border-color: var(--accent);
+  }
+
+  .label {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .highlight .label {
+    color: var(--accent);
+  }
+
+  .price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .price span {
+    font-size: 1.2rem;
+    color: var(--text-dim);
+    font-weight: 600;
+    margin-left: 4px;
+  }
+
+  .contact-info {
+    text-align: center;
+  }
+
+  .contact-info p {
+    font-size: 1.4rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .links {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .link {
+    background: var(--text);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+</style>
