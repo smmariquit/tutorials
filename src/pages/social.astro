@@ -88,11 +88,10 @@ import '../styles/global.css';
     height: 1020px;
     border-radius: 32px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-    padding: 60px 70px;
+    padding: 50px 60px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: 40px;
+    justify-content: space-between;
     border: 1px solid var(--border);
   }
 
@@ -126,8 +125,8 @@ import '../styles/global.css';
   .grid-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    margin: 20px 0;
+    gap: 32px;
+    margin: 12px 0;
   }
 
   .column h3 {
@@ -168,7 +167,7 @@ import '../styles/global.css';
 
   .card-footer {
     border-top: 2px solid var(--border);
-    padding-top: 32px;
+    padding-top: 24px;
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -184,10 +183,12 @@ import '../styles/global.css';
     background: var(--bg-card);
     border: 2px solid var(--border);
     border-radius: 16px;
-    padding: 24px 32px;
+    padding: 20px 28px;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 8px;
   }
 
   .rate-box.highlight {
@@ -196,10 +197,9 @@ import '../styles/global.css';
   }
 
   .label {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-muted);
-    white-space: nowrap;
   }
 
   .highlight .label {
