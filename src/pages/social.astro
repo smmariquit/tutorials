@@ -9,7 +9,7 @@ import '../styles/global.css';
       <div class="card-header">
         <div class="badge">Accepting New Students</div>
         <h1>Tutoring: Math, CS &amp; Programming</h1>
-        <p class="subtitle">By Stimmie — UPLB CS Student, Builder &amp; Workshop Speaker</p>
+        <p class="subtitle">By Simonee — UPLB CS Student, Builder &amp; Workshop Speaker</p>
       </div>
 
       <div class="card-body">
@@ -84,11 +84,11 @@ import '../styles/global.css';
 
   .social-card {
     background: #ffffff;
-    width: 960px;
-    height: 960px;
-    border-radius: 24px;
+    width: 1020px;
+    height: 1020px;
+    border-radius: 32px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-    padding: 60px 80px;
+    padding: 60px 70px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -101,23 +101,23 @@ import '../styles/global.css';
     color: #1864ab;
     padding: 8px 16px;
     border-radius: 8px;
-    font-weight: 600;
-    font-size: 1.2rem;
-    margin-bottom: 24px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
     border: 1px solid #a5d8ff;
   }
 
   .card-header h1 {
-    font-size: 4rem;
+    font-size: 3.5rem;
     font-weight: 800;
     color: var(--text);
     line-height: 1.1;
     letter-spacing: -0.03em;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .subtitle {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: var(--text-muted);
     font-weight: 500;
   }
@@ -126,13 +126,13 @@ import '../styles/global.css';
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
-    margin: 40px 0;
+    margin: 20px 0;
   }
 
   .column h3 {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 700;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     color: var(--text);
   }
 
@@ -145,18 +145,20 @@ import '../styles/global.css';
   }
 
   .column li {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     color: var(--text-muted);
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    line-height: 1.5;
+    position: relative;
+    padding-left: 28px;
+    line-height: 1.4;
   }
 
   .column li::before {
     content: '✓';
     color: var(--success);
     font-weight: 800;
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 
   .column li strong {
@@ -165,10 +167,10 @@ import '../styles/global.css';
 
   .card-footer {
     border-top: 2px solid var(--border);
-    padding-top: 40px;
+    padding-top: 32px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
   }
 
   .rates {
@@ -181,7 +183,7 @@ import '../styles/global.css';
     background: var(--bg-card);
     border: 2px solid var(--border);
     border-radius: 16px;
-    padding: 24px;
+    padding: 24px 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -193,7 +195,7 @@ import '../styles/global.css';
   }
 
   .label {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: var(--text-muted);
   }
@@ -203,16 +205,18 @@ import '../styles/global.css';
   }
 
   .price {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 800;
     color: var(--text);
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
   }
 
   .price span {
     font-size: 1.2rem;
     color: var(--text-dim);
     font-weight: 600;
-    margin-left: 4px;
   }
 
   .contact-info {
