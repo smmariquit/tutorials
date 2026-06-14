@@ -3,16 +3,22 @@ import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 
 const talks = [
-  { icon: '🤖', title: 'AI Use Cases That Actually Matter', venue: 'Data Engineering Pilipinas', link: 'https://stimmie.dev/talks/dep-ai-use-cases-that-actually-matter' },
-  { icon: '📊', title: 'What is Data Science?', venue: 'UPLB DSG × UPRHS CodeIT Workshop', link: 'https://stimmie.dev/talks/dsg-codeit-day1-what-is-data-science' },
-  { icon: '📖', title: 'Storytelling with Data', venue: 'UPLB DSG × UPRHS CodeIT Workshop', link: 'https://stimmie.dev/talks/dsg-codeit-day2-storytelling-with-data' },
-  { icon: '🎤', title: 'Winning by Talking', venue: 'NextStep Hacks 2025', link: 'https://stimmie.dev/talks/nextstep-hacks-2025-winning-by-talking' },
-  { icon: '🐍', title: 'Machine Learning with Python', venue: 'JPCS QCU Logic Unlocked', link: 'https://stimmie.dev/talks/jpcs-qcu-logic-unlocked-ml-with-python' },
-  { icon: '🎨', title: 'Data Storytelling with Canva', venue: 'UPLB DSG', link: 'https://stimmie.dev/talks/dsg-applicants-data-storytelling-canva' },
+  { icon: '📈', title: 'Python in Research', venue: 'UST Computer Science Society', link: 'https://stimmie.dev/talks/python-in-research-ust' },
+  { icon: '🎮', title: 'Hosting a Minecraft Server', venue: 'Colegio de Muntinlupa', link: 'https://stimmie.dev/talks/hosting-a-minecraft-server-cdm' },
+  { icon: '🧠', title: 'ML Workshop: Iris Classification', venue: 'UPLB Data Science Guild', link: 'https://stimmie.dev/talks/ml-iris-classification-org-applicants' },
+  { icon: '🏫', title: 'Machine Learning Workshop', venue: 'Saint Michael\'s College of Laguna', link: 'https://stimmie.dev/talks/ml-workshop-smcl' },
+  { icon: '📊', title: 'Present Insights Better', venue: 'Batangas Eastern Colleges', link: 'https://stimmie.dev/talks/present-insights-better-batangas-eastern-colleges' },
+  { icon: '🏠', title: 'HearthCraft: A 40,000-Player Minecraft Server', venue: 'HearthCraft', link: 'https://stimmie.dev/talks/hearthcraft-40000-player-minecraft-server' },
+  { icon: '🧱', title: 'Minecraft, Moments, Milestones', venue: 'eHeads 21', link: 'https://stimmie.dev/talks/minecraft-moments-milestones-eheads-21' },
+  { icon: '🏆', title: 'Navigating Hackathons', venue: 'Bulacan State University CSS', link: 'https://stimmie.dev/talks/navigating-hackathons-bulsu-css' },
   { icon: '⚡', title: 'Agile Edge: Swift Project Workflows', venue: 'DLSU ECES', link: 'https://stimmie.dev/talks/dlsu-eces-agile-edge-swift-project-workflows' },
-  { icon: '🧠', title: 'ML Workshop: Iris Classification', venue: 'Org Applicants', link: 'https://workshops.stimmie.dev/ml-iris-slides' },
-  { icon: '📈', title: 'Python in Research', venue: 'UST', link: 'https://workshops.stimmie.dev/python' },
-  { icon: '🏫', title: 'Machine Learning Workshop', venue: 'Saint Michael\'s College of Laguna' },
+  { icon: '🤖', title: 'AI Use Cases That Actually Matter', venue: 'Data Engineering Pilipinas', link: 'https://stimmie.dev/talks/dep-ai-use-cases-that-actually-matter' },
+  { icon: '🎨', title: 'Data Storytelling with Canva', venue: 'UPLB Data Science Guild', link: 'https://stimmie.dev/talks/dsg-applicants-data-storytelling-canva' },
+  { icon: '🐍', title: 'Machine Learning with Python', venue: 'JPCS QCU Logic Unlocked', link: 'https://stimmie.dev/talks/jpcs-qcu-logic-unlocked-ml-with-python' },
+  { icon: '📇', title: 'Networking, Resume, & Personal Branding 101', venue: 'UPLB Batch 2025', link: 'https://stimmie.dev/talks/networking-resume-personal-branding-uplb-2025' },
+  { icon: '🎤', title: 'Winning by Talking', venue: 'NextStep Hacks 2025', link: 'https://stimmie.dev/talks/nextstep-hacks-2025-winning-by-talking' },
+  { icon: '📖', title: 'Storytelling with Data', venue: 'UPLB DSG × UPRHS CodeIT Workshop', link: 'https://stimmie.dev/talks/dsg-codeit-day2-storytelling-with-data' },
+  { icon: '📊', title: 'What is Data Science?', venue: 'UPLB DSG × UPRHS CodeIT Workshop', link: 'https://stimmie.dev/talks/dsg-codeit-day1-what-is-data-science' },
 ];
 
 const subjects = [
@@ -72,12 +78,15 @@ const subjects = [
 
 const orgs = [
   'UP Data Science Society (Education & Research)',
-  'UPLB Data Science Guild (External Affairs)',
+  'UPLB Data Science Guild (Internals)',
   'Alliance of CS Students (UPLB) (Academic Affairs)',
   'UP Algorithms++ (Competitive Programming)',
   'UPLB Eliens (Competitive Programming)',
-  'Data Engineering Pilipinas',
-  'UPLB Gavel Club',
+  'UPLB Gavel Club (Finance)',
+  'START - DOST',
+  'Data Engineering Pilipinas (Volunteer)',
+  'UPLB Ugnayan ng Pahinungod (Volunteer)',
+  'ASES Manila',
   'Pizza & Friends (co-founder)',
 ];
 ---
@@ -120,7 +129,7 @@ const orgs = [
       Most people call me <strong>Simonee</strong>. I'm a BS CS student at <strong>UPLB</strong> and a DOST-SEI scholar. I've taught workshops all over the country, joined a bunch of hackathons, and built software for real clients.
     </p>
     <p class="section-desc">
-      Through <strong>TutorHub</strong> and personal tutoring, I teach math, programming, CS theory, and data science. Whether you're crammed for a major exam, stuck on a hard concept, or just want to build something cool, I got you. With <strong>30+ hours of tutoring experience</strong> and <strong>20+ speaking engagements to a total audience of more than 1,000 students</strong>, I know how to make complex topics easy to understand.
+      Through <strong>TutorHub</strong> and personal tutoring, I teach math, programming, CS theory, and data science. Whether you're crammed for a major exam, stuck on a hard concept, or just want to build something cool, I got you. With <strong>30+ hours of tutoring experience</strong> and <strong>16+ speaking engagements to a total audience of more than 1,000 students</strong>, I know how to make complex topics easy to understand.
     </p>
 
     <div class="section-label" style="margin-top:32px;">Active Organizations</div>
@@ -153,8 +162,8 @@ const orgs = [
       </div>
       <div class="cred-card">
         <div class="cred-icon">🎤</div>
-        <h3>20+ Speaking Engagements</h3>
-        <p>Spoken at DLSU, QCU, SMCL, UPRHS, and community events on ML, data science, and agile to over 1,000 students.</p>
+        <h3>16+ Speaking Engagements</h3>
+        <p>Spoken at DLSU, QCU, UST, SMCL, UPRHS, and community events on ML, data science, and agile to over 1,000 students.</p>
       </div>
       <div class="cred-card">
         <div class="cred-icon">🔬</div>
@@ -198,7 +207,7 @@ const orgs = [
   <section class="section container" id="talks">
     <div class="section-label">Speaking & Workshops</div>
     <h2 class="section-title">Talks I've Given</h2>
-    <p class="section-desc">I actually enjoy teaching concepts at scale. I've delivered 20+ speaking engagements to a total audience of more than 1,000 students.</p>
+    <p class="section-desc">I actually enjoy teaching concepts at scale. I've delivered 16+ speaking engagements to a total audience of more than 1,000 students.</p>
 
     <div class="talks-list">
       {talks.map(t => (
