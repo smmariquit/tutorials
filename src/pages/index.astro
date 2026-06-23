@@ -119,7 +119,7 @@ const heroStats = [
     <div class="section-label">About Me</div>
     <h2 class="section-title">Simonee Ezekiel Mariquit</h2>
     <p class="section-desc">
-      Computer Science student at <strong>UPLB</strong>, DOST-SEI scholar. Through <strong>TutorHub</strong> and private sessions, I teach math, programming, CS theory, and data science — whether you're cramming for an exam or building something cool.
+      Computer Science student at <strong>UPLB</strong>, DOST-SEI scholar. Through <a href="https://tutorialhub.ph/" target="_blank" rel="noopener"><strong>TutorHub</strong></a> and private sessions, I teach math, programming, CS theory, and data science — whether you're cramming for an exam or building something cool.
     </p>
   </section>
 
@@ -133,7 +133,7 @@ const heroStats = [
       <div class="cred-card cred-card-highlight">
         <div class="cred-icon">📚</div>
         <h3>100+ Hours of Tutoring</h3>
-        <p>One-on-one and group sessions via TutorHub and private clients — exam prep, concept breakdowns, and project help.</p>
+        <p>One-on-one and group sessions via <a href="https://tutorialhub.ph/" target="_blank" rel="noopener">TutorHub</a> and private clients — exam prep, concept breakdowns, and project help.</p>
       </div>
       <div class="cred-card">
         <div class="cred-icon">🎓</div>
@@ -183,8 +183,10 @@ const heroStats = [
           <div class="subject-topics">
             {s.topics.map(t => (
               <div class="topic-tag">
-                {t.uplb && <span class="code">UPLB eqv: {t.uplb}</span>}
-                <span>{t.general}</span>
+                <span class="topic-name">{t.general}</span>
+                {t.uplb && (
+                  <span class="topic-uplb" title={`UPLB equivalent: ${t.uplb}`}>{t.uplb}</span>
+                )}
               </div>
             ))}
           </div>
