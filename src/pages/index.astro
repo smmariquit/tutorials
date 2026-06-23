@@ -1,25 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import {
+  PORTFOLIO_URL,
+  sortTalksByDate,
+  getTalkImage,
+  getTalkUrl,
+  formatTalkDate,
+  talks as allTalks,
+} from '../data/talks.js';
 
-const talks = [
-  { icon: '📈', title: 'Python in Research', venue: 'UST Computer Science Society', link: 'https://stimmie.dev/talks/python-in-research-ust' },
-  { icon: '🎮', title: 'Hosting a Minecraft Server', venue: 'Colegio de Muntinlupa', link: 'https://stimmie.dev/talks/hosting-a-minecraft-server-cdm' },
-  { icon: '🧠', title: 'ML Workshop: Iris Classification', venue: 'UPLB Data Science Guild', link: 'https://stimmie.dev/talks/ml-iris-classification-org-applicants' },
-  { icon: '🏫', title: 'Machine Learning Workshop', venue: 'Saint Michael\'s College of Laguna', link: 'https://stimmie.dev/talks/ml-workshop-smcl' },
-  { icon: '📊', title: 'Present Insights Better', venue: 'Batangas Eastern Colleges', link: 'https://stimmie.dev/talks/present-insights-better-batangas-eastern-colleges' },
-  { icon: '🏠', title: 'HearthCraft: A 40,000-Player Minecraft Server', venue: 'HearthCraft', link: 'https://stimmie.dev/talks/hearthcraft-40000-player-minecraft-server' },
-  { icon: '🧱', title: 'Minecraft, Moments, Milestones', venue: 'eHeads 21', link: 'https://stimmie.dev/talks/minecraft-moments-milestones-eheads-21' },
-  { icon: '🏆', title: 'Navigating Hackathons', venue: 'Bulacan State University CSS', link: 'https://stimmie.dev/talks/navigating-hackathons-bulsu-css' },
-  { icon: '⚡', title: 'Agile Edge: Swift Project Workflows', venue: 'DLSU ECES', link: 'https://stimmie.dev/talks/dlsu-eces-agile-edge-swift-project-workflows' },
-  { icon: '🤖', title: 'AI Use Cases That Actually Matter', venue: 'Data Engineering Pilipinas', link: 'https://stimmie.dev/talks/dep-ai-use-cases-that-actually-matter' },
-  { icon: '🎨', title: 'Data Storytelling with Canva', venue: 'UPLB Data Science Guild', link: 'https://stimmie.dev/talks/dsg-applicants-data-storytelling-canva' },
-  { icon: '🐍', title: 'Machine Learning with Python', venue: 'JPCS QCU Logic Unlocked', link: 'https://stimmie.dev/talks/jpcs-qcu-logic-unlocked-ml-with-python' },
-  { icon: '📇', title: 'Networking, Resume, & Personal Branding 101', venue: 'UPLB Batch 2025', link: 'https://stimmie.dev/talks/networking-resume-personal-branding-uplb-2025' },
-  { icon: '🎤', title: 'Winning by Talking', venue: 'NextStep Hacks 2025', link: 'https://stimmie.dev/talks/nextstep-hacks-2025-winning-by-talking' },
-  { icon: '📖', title: 'Storytelling with Data', venue: 'UPLB DSG × UPRHS CodeIT Workshop', link: 'https://stimmie.dev/talks/dsg-codeit-day2-storytelling-with-data' },
-  { icon: '📊', title: 'What is Data Science?', venue: 'UPLB DSG × UPRHS CodeIT Workshop', link: 'https://stimmie.dev/talks/dsg-codeit-day1-what-is-data-science' },
-];
+const sortedTalks = sortTalksByDate(allTalks);
 
 const subjects = [
   {
@@ -78,7 +69,7 @@ const subjects = [
 
 const heroStats = [
   { value: '100+', label: 'Hours of tutoring' },
-  { value: '16+', label: 'Workshops delivered' },
+  { value: `${sortedTalks.length}+`, label: 'Workshops delivered' },
   { value: '1,000+', label: 'Students reached' },
 ];
 ---
@@ -87,7 +78,7 @@ const heroStats = [
   <!-- Nav -->
   <nav class="nav" id="navbar">
     <div class="nav-inner">
-      <a href="#" class="nav-logo">stimmie<span>.tutor</span></a>
+      <a href="#hero" class="nav-logo">Simonee</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
       <ul class="nav-links" id="navLinks">
         <li><a href="#about">About</a></li>
@@ -106,7 +97,7 @@ const heroStats = [
       <div class="hero-badge">Accepting new students (Online or F2F in Laguna)</div>
       <h1>Learn Math, CS &amp; Programming from someone who actually does it.</h1>
       <p class="hero-lead">
-        <strong>100+ hours of tutoring</strong> — clear, practical, no BS. I'm <strong>Simonee</strong>, a UPLB CS student, workshop speaker, and builder.
+        <strong>100+ hours of tutoring</strong> — clear, practical, straight to the point. I'm <strong>Simonee</strong>, a UPLB computer science student, workshop speaker, and builder.
       </p>
       <div class="hero-stats">
         {heroStats.map(s => (
@@ -128,7 +119,7 @@ const heroStats = [
     <div class="section-label">About Me</div>
     <h2 class="section-title">Simonee Ezekiel Mariquit</h2>
     <p class="section-desc">
-      BS CS at <strong>UPLB</strong>, DOST-SEI scholar. Through <strong>TutorHub</strong> and private sessions, I teach math, programming, CS theory, and data science — whether you're cramming for an exam or building something cool.
+      Computer Science student at <strong>UPLB</strong>, DOST-SEI scholar. Through <strong>TutorHub</strong> and private sessions, I teach math, programming, CS theory, and data science — whether you're cramming for an exam or building something cool.
     </p>
   </section>
 
@@ -146,8 +137,8 @@ const heroStats = [
       </div>
       <div class="cred-card">
         <div class="cred-icon">🎓</div>
-        <h3>BS Computer Science, UP Los Baños</h3>
-        <p>Currently studying at one of the top CS programs in the country. DOST-SEI scholar.</p>
+        <h3>Computer Science, UP Los Baños</h3>
+        <p>Currently studying at one of the top computer science programs in the country. DOST-SEI scholar.</p>
       </div>
       <div class="cred-card">
         <div class="cred-icon">🏆</div>
@@ -161,7 +152,7 @@ const heroStats = [
       </div>
       <div class="cred-card">
         <div class="cred-icon">🎤</div>
-        <h3>16+ Speaking Engagements</h3>
+        <h3>{sortedTalks.length}+ Speaking Engagements</h3>
         <p>Spoken at DLSU, QCU, UST, SMCL, UPRHS, and community events on ML, data science, and agile to over 1,000 students.</p>
       </div>
       <div class="cred-card">
@@ -209,43 +200,67 @@ const heroStats = [
     <p class="section-desc">Workshops at DLSU, UST, QCU, and more — same energy I bring to every tutoring session.</p>
 
     <div class="talks-grid" id="talksGrid">
-      {talks.map((t, i) => (
-        <a
-          href={t.link || '#'}
-          class:list={['talk-item', i >= 6 && 'talk-item-hidden']}
-          target={t.link ? '_blank' : undefined}
-          rel={t.link ? 'noopener' : undefined}
-        >
-          <span class="talk-icon">{t.icon}</span>
-          <div class="talk-info">
-            <h4>{t.title}</h4>
-            <p>{t.venue}</p>
-          </div>
-        </a>
-      ))}
+      {sortedTalks.map((talk, i) => {
+        const image = getTalkImage(talk);
+        return (
+          <a
+            href={getTalkUrl(talk.slug)}
+            class:list={['talk-card', i >= 6 && 'talk-item-hidden']}
+            target="_blank"
+            rel="noopener"
+          >
+            {image ? (
+              <img
+                src={`${PORTFOLIO_URL}${image}`}
+                alt=""
+                class="talk-thumb"
+                loading="lazy"
+                width="400"
+                height="225"
+              />
+            ) : (
+              <div class="talk-thumb talk-thumb-placeholder" aria-hidden="true" />
+            )}
+            <div class="talk-body">
+              <div class="talk-meta">
+                <span class:list={['talk-badge', talk.type === 'Workshop' && 'talk-badge-workshop']}>
+                  {talk.type}
+                </span>
+                {talk.date && <time datetime={talk.date}>{formatTalkDate(talk.date)}</time>}
+              </div>
+              <h4>{talk.title}</h4>
+              <p>{talk.event}</p>
+            </div>
+          </a>
+        );
+      })}
     </div>
-    {talks.length > 6 && (
+    {sortedTalks.length > 6 && (
       <button class="btn btn-outline talks-toggle" id="talksToggle" type="button">
-        Show all {talks.length} talks
+        Show all {sortedTalks.length} talks
       </button>
     )}
+    <p class="talks-more">
+      <a href={`${PORTFOLIO_URL}/talks`} target="_blank" rel="noopener">See full talk list →</a>
+    </p>
   </section>
 
   <!-- Pricing -->
   <section class="section container" id="pricing">
     <div class="section-label">Pricing</div>
     <h2 class="section-title">Rates & Packages</h2>
-    <p class="section-desc">Sessions are 1 hour long. I mostly tutor online, but can do face-to-face if you're around Biñan or Los Baños, Laguna. Group sessions are capped at 3 people max.</p>
+    <p class="section-desc">Sessions are 1 hour long. Rates below are ranges — final price depends on subject, frequency, and format. I mostly tutor online, but can do face-to-face if you're around Biñan or Los Baños, Laguna. Group sessions are capped at 3 people max.</p>
 
     <div class="pricing-grid">
       <div class="price-card">
         <div class="price-label">Solo Online</div>
-        <div class="price-amount">₱400 <span>/ hr</span></div>
+        <div class="price-amount">₱350–500 <span>/ hr</span></div>
         <div class="price-sub">1-on-1 focused session</div>
         <ul class="price-features">
           <li>Personalized pacing</li>
           <li>Screen sharing & live coding</li>
           <li>Session notes provided</li>
+          <li>Mock tests when you need them</li>
           <li>Chat support between sessions</li>
         </ul>
         <a href="#book" class="btn btn-outline" style="width:100%;justify-content:center;">Book Solo</a>
@@ -253,13 +268,14 @@ const heroStats = [
 
       <div class="price-card featured">
         <div class="price-label">Group Online</div>
-        <div class="price-amount">₱300 <span>/ hr per head</span></div>
+        <div class="price-amount">₱250–400 <span>/ hr per head</span></div>
         <div class="price-sub">2 to 3 students, split the cost</div>
         <ul class="price-features">
           <li>Same quality, lower per-person rate</li>
           <li>Collaborative problem-solving</li>
           <li>Screen sharing & live coding</li>
           <li>Shared session notes</li>
+          <li>Mock tests for the group</li>
           <li>Max 3 students per group</li>
         </ul>
         <a href="#book" class="btn btn-primary" style="width:100%;justify-content:center;">Book Group</a>
@@ -267,7 +283,7 @@ const heroStats = [
 
       <div class="price-card">
         <div class="price-label">Intensive Package</div>
-        <div class="price-amount">₱4,000 <span>/ 10 hrs</span></div>
+        <div class="price-amount">₱3,500–5,000 <span>/ 10 hrs</span></div>
         <div class="price-sub">For exam prep or project sprints</div>
         <ul class="price-features">
           <li>10-hour tutoring block</li>
@@ -284,10 +300,10 @@ const heroStats = [
   <section class="section container" id="book">
     <div class="cta-block">
       <h2>Ready to start?</h2>
-      <p>Send me an email at <strong>semariquit@gmail.com</strong>, or message me directly at <a href="https://fb.com/stimmieuwu" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">fb.com/stimmieuwu</a> so we can figure out what works for you.</p>
+      <p>Send me an email at <strong>semariquit@gmail.com</strong>, or <a href="https://fb.com/stimmieuwu" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">message me on Facebook</a> so we can figure out what works for you.</p>
       <div class="hero-cta">
         <a href="mailto:semariquit@gmail.com" class="btn btn-primary">Email Me</a>
-        <a href="https://fb.com/stimmieuwu" class="btn btn-outline" target="_blank" rel="noopener">Message on FB</a>
+        <a href="https://fb.com/stimmieuwu" class="btn btn-outline" target="_blank" rel="noopener">Facebook</a>
       </div>
     </div>
   </section>
@@ -296,7 +312,6 @@ const heroStats = [
   <footer class="footer">
     <div class="container">
       <div class="footer-links">
-        <a href="https://stimmie.dev" target="_blank" rel="noopener">Portfolio</a>
         <a href="https://github.com/smmariquit" target="_blank" rel="noopener">GitHub</a>
         <a href="https://codeforces.com/profile/manilaboi" target="_blank" rel="noopener">Codeforces</a>
       </div>
@@ -317,7 +332,7 @@ const heroStats = [
       if (talksToggle) {
         talksToggle.textContent = expanded
           ? 'Show fewer'
-          : `Show all ${talksGrid?.querySelectorAll('.talk-item').length ?? 0} talks`;
+          : `Show all ${talksGrid?.querySelectorAll('.talk-card').length ?? 0} talks`;
       }
     });
   </script>
