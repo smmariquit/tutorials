@@ -9,51 +9,46 @@ import '../styles/global.css';
       <div class="card-header">
         <div class="badge">Accepting New Students</div>
         <h1>Tutoring: Math, CS &amp; Programming</h1>
-        <p class="subtitle">By Simonee — UPLB Computer Science Student, Builder &amp; Workshop Speaker</p>
+        <p class="subtitle">Simonee Ezekiel Mariquit — UPLB Computer Science Student, Builder &amp; Workshop Speaker</p>
+        <p class="tagline">100+ hours of tutoring &mdash; clear, practical, straight to the point.</p>
       </div>
 
       <div class="card-body">
-        <div class="grid-section">
-          <div class="column">
-            <h3>What I Teach</h3>
-            <ul>
-              <li><strong>K-12 &amp; CET Review:</strong> Math, Science, UPCAT/ACET prep</li>
-              <li><strong>CS Fundamentals:</strong> Data Structures, Algos, Theory</li>
-              <li><strong>Tech Stack:</strong> Python, JS/TS, C/C++, React, SQL</li>
-              <li><strong>Data Science:</strong> Pandas, Machine Learning, Stats</li>
-            </ul>
-          </div>
-          
-          <div class="column">
-            <h3>Why me?</h3>
-            <ul>
-              <li>100+ hours of tutoring experience</li>
-              <li>Computer Science student at UP Los Baños</li>
-              <li>18+ workshops taught nationwide</li>
-              <li>Actual experience building web apps</li>
-            </ul>
-          </div>
-        </div>
+        <h3>What I teach</h3>
+        <ul class="pill-list">
+          <li>K-12 &amp; CET review</li>
+          <li>CS fundamentals</li>
+          <li>Data structures &amp; algorithms</li>
+          <li>Web programming</li>
+          <li>Python, JS/TS, C/C++, SQL</li>
+          <li>Pandas, ML basics</li>
+        </ul>
+
+        <h3>How to book</h3>
+        <ul class="pill-list">
+          <li>Email me</li>
+          <li>Message on Facebook</li>
+          <li>TutorHub profile</li>
+          <li>Online via Discord / Zoom</li>
+          <li>Face-to-face in Bi&ntilde;an / Los Ba&ntilde;os</li>
+        </ul>
       </div>
 
       <div class="card-footer">
         <div class="rates">
           <div class="rate-box">
-            <span class="label">Solo</span>
+            <span class="label">Solo Online</span>
             <span class="price">₱350–500<span>/hr</span></span>
           </div>
           <div class="rate-box highlight">
-            <span class="label">Group (Max 3)</span>
+            <span class="label">Group Online (max 3)</span>
             <span class="price">₱250–400<span>/hr per head</span></span>
           </div>
         </div>
-        
-        <div class="contact-info">
-          <p>Online via Discord / Zoom | F2F in Biñan or Los Baños | Rates negotiable</p>
-          <div class="links">
-            <span class="link">semariquit@gmail.com</span>
-            <span class="link">Facebook</span>
-          </div>
+
+        <div class="contact-row">
+          <span class="contact">semariquit@gmail.com</span>
+          <span class="contact">tutor.stimmie.dev</span>
         </div>
       </div>
     </div>
@@ -61,9 +56,8 @@ import '../styles/global.css';
 </Layout>
 
 <style>
-  /* Reset background for social capture */
   :global(body) {
-    background: #e9ecef;
+    background: #f0efeb;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,178 +67,162 @@ import '../styles/global.css';
   }
 
   .social-wrapper {
-    /* Fixed 1:1 Aspect Ratio optimized for Instagram/Facebook square posts */
     width: 1080px;
     height: 1080px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #e9ecef;
+    background: #f0efeb;
   }
 
   .social-card {
-    background: #ffffff;
+    background: #fafaf8;
     width: 1020px;
     height: 1020px;
-    border-radius: 32px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-    padding: 50px 60px;
+    border-radius: 20px;
+    border: 1px solid #ddd9d0;
+    box-shadow: 0 1px 3px rgba(44, 42, 38, 0.06);
+    padding: 56px 56px 52px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border: 1px solid var(--border);
+    gap: 24px;
   }
 
   .badge {
     display: inline-block;
-    background: #e7f5ff;
-    color: #1864ab;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: 700;
+    background: #dce8f5;
+    color: #1f4f8b;
+    border: 1px solid #c2d6ee;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: 600;
     font-size: 1.1rem;
-    margin-bottom: 20px;
-    border: 1px solid #a5d8ff;
+    width: fit-content;
   }
 
   .card-header h1 {
-    font-size: 3.5rem;
+    font-size: 3.6rem;
     font-weight: 800;
-    color: var(--text);
-    line-height: 1.1;
     letter-spacing: -0.03em;
-    margin-bottom: 12px;
+    line-height: 1.1;
+    color: #2c2a26;
+    margin-top: 16px;
+    margin-bottom: 14px;
   }
 
   .subtitle {
-    font-size: 1.6rem;
-    color: var(--text-muted);
+    font-size: 1.45rem;
+    color: #5c5850;
     font-weight: 500;
   }
 
-  .grid-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    margin: 12px 0;
+  .tagline {
+    font-size: 1.15rem;
+    color: #5c5850;
+    margin-top: 10px;
   }
 
-  .column h3 {
-    font-size: 1.6rem;
+  .card-body h3 {
+    font-size: 1.05rem;
     font-weight: 700;
-    margin-bottom: 16px;
-    color: var(--text);
+    color: #8a857c;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    margin-top: 18px;
   }
 
-  .column ul {
+  .card-body h3:first-of-type {
+    margin-top: 0;
+  }
+
+  .pill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
     list-style: none;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    margin: 0 0 12px;
   }
 
-  .column li {
-    font-size: 1.3rem;
-    color: var(--text-muted);
-    position: relative;
-    padding-left: 28px;
-    line-height: 1.4;
-  }
-
-  .column li::before {
-    content: '✓';
-    color: var(--success);
-    font-weight: 800;
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-
-  .column li strong {
-    color: var(--text);
+  .pill-list li {
+    background: #f0efeb;
+    border: 1px solid #ddd9d0;
+    color: #2c2a26;
+    padding: 10px 14px;
+    border-radius: 999px;
+    font-size: 1.15rem;
+    font-weight: 600;
   }
 
   .card-footer {
-    border-top: 2px solid var(--border);
-    padding-top: 24px;
+    border-top: 1px solid #ddd9d0;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 18px;
   }
 
   .rates {
     display: flex;
-    gap: 24px;
+    gap: 16px;
   }
 
   .rate-box {
     flex: 1;
-    background: var(--bg-card);
-    border: 2px solid var(--border);
-    border-radius: 16px;
-    padding: 20px 28px;
+    background: #f0efeb;
+    border: 1px solid #ddd9d0;
+    border-radius: 12px;
+    padding: 18px 20px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .rate-box.highlight {
-    background: #f8fbff;
-    border-color: var(--accent);
-  }
-
-  .label {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-muted);
-  }
-
-  .highlight .label {
-    color: var(--accent);
-  }
-
-  .price {
-    font-size: 2.8rem;
-    font-weight: 800;
-    color: var(--text);
-    display: flex;
-    align-items: baseline;
     gap: 6px;
   }
 
+  .rate-box.highlight {
+    background: #dce8f5;
+    border-color: #2563a8;
+  }
+
+  .label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #5c5850;
+  }
+
+  .highlight .label {
+    color: #1f4f8b;
+  }
+
+  .price {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #2c2a26;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
   .price span {
-    font-size: 1.2rem;
-    color: var(--text-dim);
+    font-size: 1rem;
+    color: #5c5850;
     font-weight: 600;
   }
 
-  .contact-info {
-    text-align: center;
-  }
-
-  .contact-info p {
-    font-size: 1.4rem;
-    color: var(--text-muted);
-    font-weight: 600;
-    margin-bottom: 16px;
-  }
-
-  .links {
+  .contact-row {
     display: flex;
     justify-content: center;
-    gap: 24px;
+    gap: 22px;
+    flex-wrap: wrap;
   }
 
-  .link {
-    background: var(--text);
+  .contact {
+    background: #2c2a26;
     color: #fff;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 1.4rem;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-size: 1.1rem;
     font-weight: 700;
-    letter-spacing: 0.02em;
   }
 </style>
