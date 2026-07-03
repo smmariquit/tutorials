@@ -11,7 +11,7 @@
   --border: #ddd9d0;
   --text: #2c2a26;
   --text-muted: #5c5850;
-  --text-dim: #8a857c;
+  --text-dim: #6b665c;
   --accent: #2563a8;
   --accent-soft: #dce8f5;
   --success: #2d6a3e;
@@ -177,7 +177,7 @@ a:hover { color: #1a4f8a; }
   background: var(--accent-soft); color: var(--accent);
 }
 .talk-badge-workshop { background: #e8f5e9; color: var(--success); }
-.talk-body h4 { font-size: 0.9rem; font-weight: 600; line-height: 1.35; color: var(--text); }
+.talk-body h3 { font-size: 0.9rem; font-weight: 600; line-height: 1.35; color: var(--text); }
 .talk-body p { font-size: 0.78rem; color: var(--text-dim); line-height: 1.45; }
 
 /* ── Subjects grid ───────────────────────────────────── */
