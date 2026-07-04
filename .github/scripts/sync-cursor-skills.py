@@ -19,7 +19,6 @@ RICH_REPOS = {
     "eductools",
     "room-tba",
     "tools",
-    "stimmie.dev",
     "room-tba-feat-isr",
     "room-tba-notify",
     "room-tba-staging-notify",
