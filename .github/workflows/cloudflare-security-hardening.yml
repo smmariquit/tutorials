@@ -12,7 +12,7 @@ jobs:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          set -euo pipefail
+          set -uo pipefail
           api() {
             local method="$1" path="$2"
             shift 2
@@ -20,6 +20,16 @@ jobs:
               -H "Authorization: Bearer ${CF_TOKEN}" \
               -H "Content-Type: application/json" \
               "$@"
+          }
+
+          api_ok() {
+            local label="$1"
+            local resp="$2"
+            if echo "$resp" | jq -e '.success' >/dev/null; then
+              return 0
+            fi
+            echo "  FAIL ${label}: $(echo "$resp" | jq -c '.errors')"
+            return 1
           }
 
           echo "=== Security insights (before) ==="
@@ -30,14 +40,23 @@ jobs:
           zones=$(api GET "/zones?per_page=50" | jq -r '.result[] | "\(.id)\t\(.name)"')
           echo "=== Zones: $(echo "$zones" | wc -l) ==="
 
+          failures=0
           set_setting() {
             local zid="$1" setting="$2" value="$3"
-            current=$(api GET "/zones/${zid}/settings/${setting}" | jq -r '.result.value // empty')
+            local resp current
+            resp=$(api GET "/zones/${zid}/settings/${setting}")
+            current=$(echo "$resp" | jq -r '.result.value // empty')
+            if ! echo "$resp" | jq -e '.success' >/dev/null; then
+              echo "  FAIL read ${setting}: $(echo "$resp" | jq -c '.errors')"
+              failures=$((failures + 1))
+              return
+            fi
             if [ "$current" = "$value" ]; then
               echo "  OK ${setting}=${value}"
             else
               echo "  SET ${setting}: ${current:-unset} -> ${value}"
-              api PATCH "/zones/${zid}/settings/${setting}" -d "{\"value\":\"${value}\"}" | jq -e '.success' >/dev/null
+              resp=$(api PATCH "/zones/${zid}/settings/${setting}" -d "{\"value\":\"${value}\"}")
+              api_ok "${setting}" "$resp" || failures=$((failures + 1))
             fi
           }
 
@@ -56,7 +75,7 @@ jobs:
             hsts_enabled=$(api GET "/zones/${zid}/settings/security_header" | jq -r '.result.value.strict_transport_security.enabled // false')
             if [ "$hsts_enabled" != "true" ]; then
               echo "  SET HSTS enabled (6mo, includeSubDomains, no preload)"
-              api PATCH "/zones/${zid}/settings/security_header" -d '{
+              resp=$(api PATCH "/zones/${zid}/settings/security_header" -d '{
                 "value": {
                   "strict_transport_security": {
                     "enabled": true,
@@ -66,7 +85,8 @@ jobs:
                     "nosniff": true
                   }
                 }
-              }' | jq -e '.success' >/dev/null
+              }')
+              api_ok "HSTS" "$resp" || failures=$((failures + 1))
             else
               echo "  OK HSTS already enabled"
             fi
@@ -74,12 +94,13 @@ jobs:
             dmarc=$(api GET "/zones/${zid}/dns_records?type=TXT&name=_dmarc.${zname}" | jq -r '.result[0].id // empty')
             if [ -z "$dmarc" ]; then
               echo "  ADD DMARC TXT (_dmarc) p=none"
-              api POST "/zones/${zid}/dns_records" -d "{
+              resp=$(api POST "/zones/${zid}/dns_records" -d "{
                 \"type\": \"TXT\",
                 \"name\": \"_dmarc\",
                 \"content\": \"v=DMARC1; p=none; rua=mailto:semariquit@gmail.com\",
                 \"ttl\": 1
-              }" | jq -e '.success' >/dev/null
+              }")
+              api_ok "DMARC" "$resp" || failures=$((failures + 1))
             else
               echo "  OK DMARC exists"
             fi
@@ -89,3 +110,8 @@ jobs:
           api GET "/accounts/${ACCOUNT_ID}/security-center/insights?per_page=100" | jq -r '
             .result.issues[]? | select(.status=="active" and (.dismissed|not)) |
             "[\(.severity)] \(.subject) — \(.issue_class)"'
+
+          if [ "$failures" -gt 0 ]; then
+            echo "Completed with ${failures} failed API call(s). Ensure CLOUDFLARE_API_TOKEN includes Zone Settings Edit + DNS Edit."
+            exit 1
+          fi
