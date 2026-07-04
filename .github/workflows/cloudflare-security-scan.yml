@@ -7,7 +7,7 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
-      - name: Dump all security insights (paginated)
+      - name: Full account security audit
         env:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -20,36 +20,35 @@ jobs:
               "${@:3}"
           }
 
-          echo "=== API verify ==="
+          echo "=== Token ==="
           api GET "/user/tokens/verify" | jq '{success, status: .result.status}'
 
-          page=1
-          total=0
-          declare -A classes
+          echo "=== Security Center API (needs Security Center Read on token) ==="
+          resp=$(api GET "/accounts/${ACCOUNT_ID}/security-center/insights?per_page=5&page=1")
+          echo "$resp" | jq '{success, count: .result.count, errors}'
+          if echo "$resp" | jq -e '.success' >/dev/null; then
+            page=1
+            while true; do
+              resp=$(api GET "/accounts/${ACCOUNT_ID}/security-center/insights?per_page=100&page=${page}")
+              n=$(echo "$resp" | jq -r '.result.issues | length')
+              echo "$resp" | jq -r '.result.issues[]? | select(.status=="active" and (.dismissed|not)) | "[\(.severity)] \(.issue_class) — \(.subject)"'
+              [ "$n" -lt 100 ] && break
+              page=$((page+1))
+            done
+          fi
 
-          while true; do
-            resp=$(api GET "/accounts/${ACCOUNT_ID}/security-center/insights?per_page=100&page=${page}")
-            ok=$(echo "$resp" | jq -r '.success')
-            if [ "$ok" != "true" ]; then
-              echo "API error page ${page}: $(echo "$resp" | jq -c '.errors')"
-              echo "Raw: $(echo "$resp" | jq -c '.')"
-              break
-            fi
-            count=$(echo "$resp" | jq -r '.result.count // 0')
-            n=$(echo "$resp" | jq -r '.result.issues | length')
-            [ "$page" -eq 1 ] && echo "=== Total reported count: ${count} ==="
-            if [ "$n" -eq 0 ]; then break; fi
-            echo "$resp" | jq -r '.result.issues[] | select(.status=="active" and (.dismissed|not)) | "[\(.severity)] \(.issue_class) — \(.subject)"'
-            while IFS= read -r cls; do
-              classes["$cls"]=$((${classes[$cls]:-0} + 1))
-            done < <(echo "$resp" | jq -r '.result.issues[] | select(.status=="active" and (.dismissed|not)) | .issue_class')
-            total=$((total + n))
-            page=$((page + 1))
-            [ "$n" -lt 100 ] && break
-          done
+          echo "=== Grey-cloud DNS (unproxied A/AAAA/CNAME) ==="
+          zones=$(api GET "/zones?per_page=50" | jq -r '.result[] | "\(.id)\t\(.name)"')
+          while IFS=$'\t' read -r zid zname; do
+            [ -z "$zid" ] && continue
+            api GET "/zones/${zid}/dns_records?per_page=100" | jq -r --arg z "$zname" '
+              .result[] | select(.proxied == false and (.type=="A" or .type=="AAAA" or .type=="CNAME")) |
+              "\($z)\t\(.type)\t\(.name)\t\(.content)"'
+          done <<< "$zones"
 
-          echo "=== Fetched ${total} active issues across ${page} page(s) ==="
-          echo "=== By issue_class ==="
-          for cls in "${!classes[@]}"; do
-            echo "  ${classes[$cls]}  ${cls}"
-          done | sort -rn
+          echo "=== Per-zone bot settings ==="
+          while IFS=$'\t' read -r zid zname; do
+            [ -z "$zid" ] && continue
+            bfm=$(api GET "/zones/${zid}/settings/bot_fight_mode" | jq -r '.result.value // "n/a"')
+            echo "${zname}: bot_fight_mode=${bfm}"
+          done <<< "$zones"
