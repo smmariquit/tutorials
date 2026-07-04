@@ -150,25 +150,25 @@ def is_watch(name: str) -> bool:
 def risk_line(title: str) -> str:
     parsed = parse_versions(title)
     if not parsed:
-      if "group" in title.lower():
-          return "medium — dependency group bump; skim the lockfile diff"
-      return "unknown — could not parse versions from title"
+        if "group" in title.lower():
+            return "medium — dependency group bump; skim the lockfile diff"
+        return "unknown — could not parse versions from title"
 
-  name, old, new = parsed
-  kind = bump_kind(old, new)
-  watch = is_watch(name)
+    name, old, new = parsed
+    kind = bump_kind(old, new)
+    watch = is_watch(name)
 
-  if kind == "major":
-      return f"high — major {name} ({old} → {new}); run build/tests before merge"
-  if kind == "minor":
-      if watch:
-          return f"medium — minor {name} ({old} → {new}); framework-adjacent, smoke-test"
-      return f"low — minor {name} ({old} → {new})"
-  if kind == "patch":
-      if watch and name.lower().startswith("@types/"):
-          return f"low — types patch {name}"
-      return f"low — patch {name} ({old} → {new})"
-  return f"low — no semver change detected for {name}"
+    if kind == "major":
+        return f"high — major {name} ({old} → {new}); run build/tests before merge"
+    if kind == "minor":
+        if watch:
+            return f"medium — minor {name} ({old} → {new}); framework-adjacent, smoke-test"
+        return f"low — minor {name} ({old} → {new})"
+    if kind == "patch":
+        if watch and name.lower().startswith("@types/"):
+            return f"low — types patch {name}"
+        return f"low — patch {name} ({old} → {new})"
+    return f"low — no semver change detected for {name}"
 
 
 def md_pull(p: Pull) -> str:
