@@ -1,0 +1,91 @@
+name: Cloudflare Security Hardening
+
+on:
+  workflow_dispatch:
+
+jobs:
+  harden:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Apply SEO-safe zone security settings
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -euo pipefail
+          api() {
+            local method="$1" path="$2"
+            shift 2
+            curl -sS -X "$method" "https://api.cloudflare.com/client/v4${path}" \
+              -H "Authorization: Bearer ${CF_TOKEN}" \
+              -H "Content-Type: application/json" \
+              "$@"
+          }
+
+          echo "=== Security insights (before) ==="
+          api GET "/accounts/${ACCOUNT_ID}/security-center/insights?per_page=100" | jq -r '
+            .result.issues[]? | select(.status=="active" and (.dismissed|not)) |
+            "[\(.severity)] \(.subject) — \(.issue_class)"'
+
+          zones=$(api GET "/zones?per_page=50" | jq -r '.result[] | "\(.id)\t\(.name)"')
+          echo "=== Zones: $(echo "$zones" | wc -l) ==="
+
+          set_setting() {
+            local zid="$1" setting="$2" value="$3"
+            current=$(api GET "/zones/${zid}/settings/${setting}" | jq -r '.result.value // empty')
+            if [ "$current" = "$value" ]; then
+              echo "  OK ${setting}=${value}"
+            else
+              echo "  SET ${setting}: ${current:-unset} -> ${value}"
+              api PATCH "/zones/${zid}/settings/${setting}" -d "{\"value\":\"${value}\"}" | jq -e '.success' >/dev/null
+            fi
+          }
+
+          while IFS=$'\t' read -r zid zname; do
+            [ -z "$zid" ] && continue
+            echo "--- ${zname} ---"
+            set_setting "$zid" always_use_https on
+            set_setting "$zid" min_tls_version "1.2"
+            set_setting "$zid" ssl strict
+            set_setting "$zid" tls_1_3 on
+            set_setting "$zid" automatic_https_rewrites on
+            set_setting "$zid" opportunistic_encryption on
+            set_setting "$zid" browser_check off
+            set_setting "$zid" security_level medium
+
+            hsts_enabled=$(api GET "/zones/${zid}/settings/security_header" | jq -r '.result.value.strict_transport_security.enabled // false')
+            if [ "$hsts_enabled" != "true" ]; then
+              echo "  SET HSTS enabled (6mo, includeSubDomains, no preload)"
+              api PATCH "/zones/${zid}/settings/security_header" -d '{
+                "value": {
+                  "strict_transport_security": {
+                    "enabled": true,
+                    "max_age": 15552000,
+                    "include_subdomains": true,
+                    "preload": false,
+                    "nosniff": true
+                  }
+                }
+              }' | jq -e '.success' >/dev/null
+            else
+              echo "  OK HSTS already enabled"
+            fi
+
+            dmarc=$(api GET "/zones/${zid}/dns_records?type=TXT&name=_dmarc.${zname}" | jq -r '.result[0].id // empty')
+            if [ -z "$dmarc" ]; then
+              echo "  ADD DMARC TXT (_dmarc) p=none"
+              api POST "/zones/${zid}/dns_records" -d "{
+                \"type\": \"TXT\",
+                \"name\": \"_dmarc\",
+                \"content\": \"v=DMARC1; p=none; rua=mailto:semariquit@gmail.com\",
+                \"ttl\": 1
+              }" | jq -e '.success' >/dev/null
+            else
+              echo "  OK DMARC exists"
+            fi
+          done <<< "$zones"
+
+          echo "=== Security insights (after) ==="
+          api GET "/accounts/${ACCOUNT_ID}/security-center/insights?per_page=100" | jq -r '
+            .result.issues[]? | select(.status=="active" and (.dismissed|not)) |
+            "[\(.severity)] \(.subject) — \(.issue_class)"'
