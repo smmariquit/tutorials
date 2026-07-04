@@ -1,0 +1,55 @@
+name: Cloudflare Security Insights Scan
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump all security insights (paginated)
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -uo pipefail
+          api() {
+            curl -sS -X "$1" "https://api.cloudflare.com/client/v4$2" \
+              -H "Authorization: Bearer ${CF_TOKEN}" \
+              -H "Content-Type: application/json" \
+              "${@:3}"
+          }
+
+          echo "=== API verify ==="
+          api GET "/user/tokens/verify" | jq '{success, status: .result.status}'
+
+          page=1
+          total=0
+          declare -A classes
+
+          while true; do
+            resp=$(api GET "/accounts/${ACCOUNT_ID}/security-center/insights?per_page=100&page=${page}")
+            ok=$(echo "$resp" | jq -r '.success')
+            if [ "$ok" != "true" ]; then
+              echo "API error page ${page}: $(echo "$resp" | jq -c '.errors')"
+              echo "Raw: $(echo "$resp" | jq -c '.')"
+              break
+            fi
+            count=$(echo "$resp" | jq -r '.result.count // 0')
+            n=$(echo "$resp" | jq -r '.result.issues | length')
+            [ "$page" -eq 1 ] && echo "=== Total reported count: ${count} ==="
+            if [ "$n" -eq 0 ]; then break; fi
+            echo "$resp" | jq -r '.result.issues[] | select(.status=="active" and (.dismissed|not)) | "[\(.severity)] \(.issue_class) — \(.subject)"'
+            while IFS= read -r cls; do
+              classes["$cls"]=$((${classes[$cls]:-0} + 1))
+            done < <(echo "$resp" | jq -r '.result.issues[] | select(.status=="active" and (.dismissed|not)) | .issue_class')
+            total=$((total + n))
+            page=$((page + 1))
+            [ "$n" -lt 100 ] && break
+          done
+
+          echo "=== Fetched ${total} active issues across ${page} page(s) ==="
+          echo "=== By issue_class ==="
+          for cls in "${!classes[@]}"; do
+            echo "  ${classes[$cls]}  ${cls}"
+          done | sort -rn
