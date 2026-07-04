@@ -29,7 +29,8 @@ jobs:
             esac
             if [ "$type" = "CNAME" ]; then
               case "$content" in
-                *vercel-dns*|*vercel.app|*netlify.app|*streamlit.app|*pages.dev) return 0 ;;
+                *vercel-dns*|*vercel.app|*pages.dev) return 0 ;;
+                *streamlit.app|*netlify.app) return 1 ;;
               esac
             fi
             if [ "$type" = "A" ] && [ "$content" = "216.198.79.1" ]; then
@@ -98,3 +99,19 @@ jobs:
           done <<< "$zones"
 
           echo "=== Done ==="
+
+          echo "=== 4. Unproxy non-Vercel hosts that break behind orange-cloud (e.g. Streamlit) ==="
+          while IFS=$'\t' read -r zid zname; do
+            [ -z "$zid" ] && continue
+            api GET "/zones/${zid}/dns_records?per_page=100" | jq -r '.result[] | select(.proxied==true and .type=="CNAME") | "\(.id)\t\(.name)\t\(.content)"' | \
+            while IFS=$'\t' read -r rid rname rcontent; do
+              case "$rcontent" in
+                *streamlit.app*)
+                  resp=$(api PATCH "/zones/${zid}/dns_records/${rid}" -d '{"proxied":false}')
+                  if echo "$resp" | jq -e '.success' >/dev/null; then
+                    echo "  UNPROXY ${rname} (streamlit)"
+                  fi
+                  ;;
+              esac
+            done
+          done <<< "$zones"
