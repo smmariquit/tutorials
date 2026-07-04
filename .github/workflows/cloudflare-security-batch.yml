@@ -1,0 +1,100 @@
+name: Cloudflare Security Batch Fix
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: AI Labyrinth, proxy safe DNS, RDP audit
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          set -uo pipefail
+          api() {
+            curl -sS -X "$1" "https://api.cloudflare.com/client/v4$2" \
+              -H "Authorization: Bearer ${CF_TOKEN}" \
+              -H "Content-Type: application/json" \
+              "${@:3}"
+          }
+
+          should_proxy() {
+            local name="$1" type="$2" content="$3"
+            case "$name" in
+              *._domainkey.*|*._domainkey|_dmarc|*dkim*) return 1 ;;
+              mc.*|mcb.*|mcl.*|mmp.*|mnu.*|msl.*|msn.*|mso.*|bmc.*|pmc.*|smn.*|srm.*|tmc.*|tms.*|play.*|node.*|panel.*|cpanel.*|map.*|calypso.*|store.*|transcripts.*|ogygia.*|pom.*)
+                return 1 ;;
+            esac
+            if [ "$type" = "CNAME" ]; then
+              case "$content" in
+                *vercel-dns*|*vercel.app|*netlify.app|*streamlit.app|*pages.dev) return 0 ;;
+              esac
+            fi
+            if [ "$type" = "A" ] && [ "$content" = "216.198.79.1" ]; then
+              return 0
+            fi
+            return 1
+          }
+
+          echo "=== 1. Enable AI Labyrinth (crawler_protection only, NOT Bot Fight Mode) ==="
+          zones=$(api GET "/zones?per_page=50" | jq -r '.result[] | "\(.id)\t\(.name)"')
+          labyrinth_ok=0 labyrinth_fail=0
+          while IFS=$'\t' read -r zid zname; do
+            [ -z "$zid" ] && continue
+            resp=$(api PUT "/zones/${zid}/bot_management" -d '{
+              "crawler_protection": "enabled",
+              "fight_mode": false,
+              "enable_js": false,
+              "ai_bots_protection": "disabled",
+              "content_bots_protection": "disabled"
+            }')
+            if echo "$resp" | jq -e '.success' >/dev/null; then
+              cp=$(echo "$resp" | jq -r '.result.crawler_protection // "unknown"')
+              echo "  OK ${zname}: crawler_protection=${cp}"
+              labyrinth_ok=$((labyrinth_ok+1))
+            else
+              echo "  FAIL ${zname}: $(echo "$resp" | jq -c '.errors // .messages')"
+              labyrinth_fail=$((labyrinth_fail+1))
+            fi
+          done <<< "$zones"
+          echo "AI Labyrinth: ${labyrinth_ok} ok, ${labyrinth_fail} failed"
+
+          echo "=== 2. Orange-cloud safe Vercel HTTP records only ==="
+          proxied=0 skipped=0
+          while IFS=$'\t' read -r zid zname; do
+            [ -z "$zid" ] && continue
+            api GET "/zones/${zid}/dns_records?per_page=100" | jq -r '.result[] | "\(.id)\t\(.type)\t\(.name)\t\(.content)\t\(.proxied)"' | \
+            while IFS=$'\t' read -r rid rtype rname rcontent rproxied; do
+              [ "$rproxied" = "true" ] && continue
+              if should_proxy "$rname" "$rtype" "$rcontent"; then
+                resp=$(api PATCH "/zones/${zid}/dns_records/${rid}" -d '{"proxied":true}')
+                if echo "$resp" | jq -e '.success' >/dev/null; then
+                  echo "  PROXY ${rname} (${rtype})"
+                  proxied=$((proxied+1))
+                else
+                  echo "  FAIL proxy ${rname}: $(echo "$resp" | jq -c '.errors')"
+                fi
+              else
+                skipped=$((skipped+1))
+              fi
+            done
+          done <<< "$zones"
+          echo "Proxied records updated (see log above)"
+
+          echo "=== 3. RDP port 3389 audit (grey-cloud A records) ==="
+          while IFS=$'\t' read -r zid zname; do
+            [ -z "$zid" ] && continue
+            api GET "/zones/${zid}/dns_records?per_page=100" | jq -r --arg z "$zname" '
+              .result[] | select(.proxied==false and .type=="A") | "\(.name)\t\(.content)"' | \
+            while IFS=$'\t' read -r rname rip; do
+              if timeout 4 bash -c "echo >/dev/tcp/${rip}/3389" 2>/dev/null; then
+                echo "  OPEN RDP: ${rname} -> ${rip}:3389"
+              else
+                echo "  closed: ${rname} -> ${rip}:3389"
+              fi
+            done
+          done <<< "$zones"
+
+          echo "=== Done ==="
