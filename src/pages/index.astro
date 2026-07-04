@@ -2,340 +2,340 @@
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import {
-  PORTFOLIO_URL,
-  sortTalksByDate,
-  getTalkImage,
-  getTalkUrl,
-  formatTalkDate,
-  talks as allTalks,
+ PORTFOLIO_URL,
+ sortTalksByDate,
+ getTalkImage,
+ getTalkUrl,
+ formatTalkDate,
+ talks as allTalks,
 } from '../data/talks.js';
 
 const sortedTalks = sortTalksByDate(allTalks);
 
 const subjects = [
-  {
-    emoji: '🧮', name: 'Mathematics',
-    desc: 'Foundations in algebra, calculus, and discrete mathematics for any university curriculum.',
-    topics: [
-      { general: 'Algebra & Trigonometry', uplb: 'MATH 17' },
-      { general: 'Differential & Integral Calculus', uplb: 'MATH 27 & 28' },
-      { general: 'Discrete Mathematical Structures', uplb: 'CMSC 56 & 57' },
-    ],
-  },
-  {
-    emoji: '💻', name: 'Computer Science & Programming',
-    desc: 'Core computer science theory, algorithms, and practical programming fundamentals.',
-    topics: [
-      { general: 'Fundamentals & OOP', uplb: 'CMSC 21 & 22' },
-      { general: 'Data Structures', uplb: 'CMSC 123' },
-      { general: 'Theory of Computation', uplb: 'CMSC 141' },
-      { general: 'Design & Analysis of Algorithms', uplb: 'CMSC 142' },
-      { general: 'Web Programming', uplb: 'CMSC 100' },
-    ],
-  },
-  {
-    emoji: '📊', name: 'Data & Statistics',
-    desc: 'Data analysis, applied statistics, and machine learning workflows.',
-    topics: [
-      { general: 'Probability & Statistics Fundamentals', uplb: 'STAT 101' },
-      { general: 'Data Manipulation (Pandas, NumPy)' },
-      { general: 'Data Visualization & Storytelling' },
-      { general: 'Introductory Machine Learning (Scikit-learn)' },
-    ],
-  },
-  {
-    emoji: '📝', name: 'K-12 & CET Review',
-    desc: 'I can teach pretty much anything in the K-12 curriculum. I also passed UPCAT, ACET, DCAT, and the DOST Scholarship Exam.',
-    topics: [
-      { general: 'College Entrance Test (CET) Prep' },
-      { general: 'DOST Scholarship Qualifying Exam Prep' },
-      { general: 'JHS / SHS Mathematics' },
-      { general: 'JHS / SHS Science' },
-    ],
-  },
-  {
-    emoji: '🛠️', name: 'Languages & Tools',
-    desc: 'The actual tech stack I use to build production apps and win hackathons.',
-    topics: [
-      { general: 'Python' },
-      { general: 'JavaScript & TypeScript' },
-      { general: 'C & C++' },
-      { general: 'SQL' },
-      { general: 'HTML & CSS' },
-      { general: 'React, Next.js, Astro & Vite' },
-    ],
-  }
+ {
+ emoji: '🧮', name: 'Mathematics',
+ desc: 'Foundations in algebra, calculus, and discrete mathematics for any university curriculum.',
+ topics: [
+ { general: 'Algebra & Trigonometry', uplb: 'MATH 17' },
+ { general: 'Differential & Integral Calculus', uplb: 'MATH 27 & 28' },
+ { general: 'Discrete Mathematical Structures', uplb: 'CMSC 56 & 57' },
+ ],
+ },
+ {
+ emoji: '💻', name: 'Computer Science & Programming',
+ desc: 'Core computer science theory, algorithms, and practical programming fundamentals.',
+ topics: [
+ { general: 'Fundamentals & OOP', uplb: 'CMSC 21 & 22' },
+ { general: 'Data Structures', uplb: 'CMSC 123' },
+ { general: 'Theory of Computation', uplb: 'CMSC 141' },
+ { general: 'Design & Analysis of Algorithms', uplb: 'CMSC 142' },
+ { general: 'Web Programming', uplb: 'CMSC 100' },
+ ],
+ },
+ {
+ emoji: '📊', name: 'Data & Statistics',
+ desc: 'Data analysis, applied statistics, and machine learning workflows.',
+ topics: [
+ { general: 'Probability & Statistics Fundamentals', uplb: 'STAT 101' },
+ { general: 'Data Manipulation (Pandas, NumPy)' },
+ { general: 'Data Visualization & Storytelling' },
+ { general: 'Introductory Machine Learning (Scikit-learn)' },
+ ],
+ },
+ {
+ emoji: '📝', name: 'K-12 & CET Review',
+ desc: 'I can teach pretty much anything in the K-12 curriculum. I also passed UPCAT, ACET, DCAT, and the DOST Scholarship Exam.',
+ topics: [
+ { general: 'College Entrance Test (CET) Prep' },
+ { general: 'DOST Scholarship Qualifying Exam Prep' },
+ { general: 'JHS / SHS Mathematics' },
+ { general: 'JHS / SHS Science' },
+ ],
+ },
+ {
+ emoji: '🛠️', name: 'Languages & Tools',
+ desc: 'The actual tech stack I use to build production apps and win hackathons.',
+ topics: [
+ { general: 'Python' },
+ { general: 'JavaScript & TypeScript' },
+ { general: 'C & C++' },
+ { general: 'SQL' },
+ { general: 'HTML & CSS' },
+ { general: 'React, Next.js, Astro & Vite' },
+ ],
+ }
 ];
 
 const heroStats = [
-  { value: '100+', label: 'Hours of tutoring' },
-  { value: `${sortedTalks.length}+`, label: 'Workshops delivered' },
-  { value: '1,000+', label: 'Students reached' },
+ { value: '100+', label: 'Hours of tutoring' },
+ { value: `${sortedTalks.length}+`, label: 'Workshops delivered' },
+ { value: '1,000+', label: 'Students reached' },
 ];
 ---
 
-<Layout title="Simonee Tutoring — Math, CS & Programming">
-  <!-- Nav -->
-  <nav class="nav" id="navbar">
-    <div class="nav-inner">
-      <a href="#hero" class="nav-logo">Simonee</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#about">About</a></li>
-        <li><a href="#credentials">Credentials</a></li>
-        <li><a href="#subjects">Subjects</a></li>
-        <li><a href="#talks">Talks</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#book" class="btn btn-primary" style="padding:6px 14px;font-size:0.82rem;">Book a Session</a></li>
-      </ul>
-    </div>
-  </nav>
+<Layout title="Simonee Tutoring: Math, CS & Programming">
+ <!, Nav, >
+ <nav class="nav" id="navbar">
+ <div class="nav-inner">
+ <a href="#hero" class="nav-logo">Simonee</a>
+ <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+ <ul class="nav-links" id="navLinks">
+ <li><a href="#about">About</a></li>
+ <li><a href="#credentials">Credentials</a></li>
+ <li><a href="#subjects">Subjects</a></li>
+ <li><a href="#talks">Talks</a></li>
+ <li><a href="#pricing">Pricing</a></li>
+ <li><a href="#book" class="btn btn-primary" style="padding:6px 14px;font-size:0.82rem;">Book a Session</a></li>
+ </ul>
+ </div>
+ </nav>
 
-  <!-- Hero -->
-  <section class="hero" id="hero">
-    <div class="container hero-inner">
-      <div class="hero-badge">Accepting new students (Online or F2F in Laguna)</div>
-      <h1>Learn Math, CS &amp; Programming from someone who actually does it.</h1>
-      <p class="hero-lead">
-        <strong>100+ hours of tutoring</strong> — clear, practical, straight to the point. I'm <strong>Simonee</strong>, a UPLB computer science student, workshop speaker, and builder.
-      </p>
-      <div class="hero-stats">
-        {heroStats.map(s => (
-          <div class="hero-stat">
-            <span class="hero-stat-value">{s.value}</span>
-            <span class="hero-stat-label">{s.label}</span>
-          </div>
-        ))}
-      </div>
-      <div class="hero-cta">
-        <a href="#pricing" class="btn btn-primary">See Pricing</a>
-        <a href="#book" class="btn btn-outline">Book a Session</a>
-      </div>
-    </div>
-  </section>
+ <!, Hero, >
+ <section class="hero" id="hero">
+ <div class="container hero-inner">
+ <div class="hero-badge">Accepting new students (Online or F2F in Laguna)</div>
+ <h1>Learn Math, CS &amp; Programming from someone who actually does it.</h1>
+ <p class="hero-lead">
+ <strong>100+ hours of tutoring</strong>: clear, practical, straight to the point. I'm <strong>Simonee</strong>, a UPLB computer science student, workshop speaker, and builder.
+ </p>
+ <div class="hero-stats">
+ {heroStats.map(s => (
+ <div class="hero-stat">
+ <span class="hero-stat-value">{s.value}</span>
+ <span class="hero-stat-label">{s.label}</span>
+ </div>
+ ))}
+ </div>
+ <div class="hero-cta">
+ <a href="#pricing" class="btn btn-primary">See Pricing</a>
+ <a href="#book" class="btn btn-outline">Book a Session</a>
+ </div>
+ </div>
+ </section>
 
-  <!-- About -->
-  <section class="section container" id="about">
-    <div class="section-label">About Me</div>
-    <h2 class="section-title">Simonee Ezekiel Mariquit</h2>
-    <p class="section-desc">
-      Computer Science student at <strong>UPLB</strong>, DOST-SEI scholar. Through <a href="https://tutorialhub.ph/" target="_blank" rel="noopener"><strong>TutorHub</strong></a> and private sessions, I teach math, programming, CS theory, and data science — whether you're cramming for an exam or building something cool.
-    </p>
-  </section>
+ <!, About, >
+ <section class="section container" id="about">
+ <div class="section-label">About Me</div>
+ <h2 class="section-title">Simonee Ezekiel Mariquit</h2>
+ <p class="section-desc">
+ Computer Science student at <strong>UPLB</strong>, DOST-SEI scholar. Through <a href="https://tutorialhub.ph/" target="_blank" rel="noopener"><strong>TutorHub</strong></a> and private sessions, I teach math, programming, CS theory, and data science: If you are cramming for an exam or building something cool.
+ </p>
+ </section>
 
-  <!-- Credentials -->
-  <section class="section container" id="credentials">
-    <div class="section-label">Credentials</div>
-    <h2 class="section-title">Why me?</h2>
-    <p class="section-desc">Actual experience, not just textbook knowledge.</p>
+ <!, Credentials, >
+ <section class="section container" id="credentials">
+ <div class="section-label">Credentials</div>
+ <h2 class="section-title">Why me?</h2>
+ <p class="section-desc">Actual experience, not just textbook knowledge.</p>
 
-    <div class="cred-grid">
-      <div class="cred-card cred-card-highlight">
-        <div class="cred-icon">📚</div>
-        <h3>100+ Hours of Tutoring</h3>
-        <p>One-on-one and group sessions via <a href="https://tutorialhub.ph/" target="_blank" rel="noopener">TutorHub</a> and private clients — exam prep, concept breakdowns, and project help.</p>
-      </div>
-      <div class="cred-card">
-        <div class="cred-icon">🎓</div>
-        <h3>Computer Science, UP Los Baños</h3>
-        <p>Currently studying at one of the top computer science programs in the country. DOST-SEI scholar.</p>
-      </div>
-      <div class="cred-card">
-        <div class="cred-icon">🏆</div>
-        <h3>30+ Hackathons & Game Jams</h3>
-        <p>Competed in and organized hackathons, building under pressure with real deadlines.</p>
-      </div>
-      <div class="cred-card">
-        <div class="cred-icon">⚔️</div>
-        <h3>Competitive Programmer</h3>
-        <p>Active on Codeforces with a rated profile. Member of UP Algorithms++.</p>
-      </div>
-      <div class="cred-card">
-        <div class="cred-icon">🎤</div>
-        <h3>{sortedTalks.length}+ Speaking Engagements</h3>
-        <p>Spoken at DLSU, QCU, UST, SMCL, UPRHS, and community events on ML, data science, and agile to over 1,000 students.</p>
-      </div>
-      <div class="cred-card">
-        <div class="cred-icon">🔬</div>
-        <h3>Research Exposure</h3>
-        <p>Been to multiple research labs and group sessions, presenting technical papers on data analytics.</p>
-      </div>
-      <div class="cred-card">
-        <div class="cred-icon">💼</div>
-        <h3>Freelance Software Engineer</h3>
-        <p>Professional experience building web apps, APIs, and automation for real clients.</p>
-      </div>
-    </div>
-  </section>
+ <div class="cred-grid">
+ <div class="cred-card cred-card-highlight">
+ <div class="cred-icon">📚</div>
+ <h3>100+ Hours of Tutoring</h3>
+ <p>One-on-one and group sessions via <a href="https://tutorialhub.ph/" target="_blank" rel="noopener">TutorHub</a> and private clients: exam prep, concept breakdowns, and project help.</p>
+ </div>
+ <div class="cred-card">
+ <div class="cred-icon">🎓</div>
+ <h3>Computer Science, UP Los Baños</h3>
+ <p>Currently studying at one of the top computer science programs in the country. DOST-SEI scholar.</p>
+ </div>
+ <div class="cred-card">
+ <div class="cred-icon">🏆</div>
+ <h3>30+ Hackathons & Game Jams</h3>
+ <p>Competed in and organized hackathons, building under pressure with real deadlines.</p>
+ </div>
+ <div class="cred-card">
+ <div class="cred-icon">⚔️</div>
+ <h3>Competitive Programmer</h3>
+ <p>Active on Codeforces with a rated profile. Member of UP Algorithms++.</p>
+ </div>
+ <div class="cred-card">
+ <div class="cred-icon">🎤</div>
+ <h3>{sortedTalks.length}+ Speaking Engagements</h3>
+ <p>Spoken at DLSU, QCU, UST, SMCL, UPRHS, and community events on ML, data science, and agile to over 1,000 students.</p>
+ </div>
+ <div class="cred-card">
+ <div class="cred-icon">🔬</div>
+ <h3>Research Exposure</h3>
+ <p>Been to multiple research labs and group sessions, presenting technical papers on data analytics.</p>
+ </div>
+ <div class="cred-card">
+ <div class="cred-icon">💼</div>
+ <h3>Freelance Software Engineer</h3>
+ <p>Professional experience building web apps, APIs, and automation for real clients.</p>
+ </div>
+ </div>
+ </section>
 
-  <!-- Subjects -->
-  <section class="section container" id="subjects">
-    <div class="section-label">What I Teach</div>
-    <h2 class="section-title">Course Focus</h2>
-    <p class="section-desc">University-agnostic tutoring tailored to key concepts. (UPLB equivalents provided if you go there).</p>
+ <!, Subjects, >
+ <section class="section container" id="subjects">
+ <div class="section-label">What I Teach</div>
+ <h2 class="section-title">Course Focus</h2>
+ <p class="section-desc">University-agnostic tutoring tailored to key concepts. (UPLB equivalents provided if you go there).</p>
 
-    <div class="subjects-grid">
-      {subjects.map(s => (
-        <div class="subject-card">
-          <div class="subject-emoji">{s.emoji}</div>
-          <h3>{s.name}</h3>
-          <p>{s.desc}</p>
-          <div class="subject-topics">
-            {s.topics.map(t => (
-              <div class="topic-tag">
-                <span class="topic-name">{t.general}</span>
-                {t.uplb && (
-                  <span class="topic-uplb" title={`UPLB equivalent: ${t.uplb}`}>{t.uplb}</span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
+ <div class="subjects-grid">
+ {subjects.map(s => (
+ <div class="subject-card">
+ <div class="subject-emoji">{s.emoji}</div>
+ <h3>{s.name}</h3>
+ <p>{s.desc}</p>
+ <div class="subject-topics">
+ {s.topics.map(t => (
+ <div class="topic-tag">
+ <span class="topic-name">{t.general}</span>
+ {t.uplb && (
+ <span class="topic-uplb" title={`UPLB equivalent: ${t.uplb}`}>{t.uplb}</span>
+ )}
+ </div>
+ ))}
+ </div>
+ </div>
+ ))}
+ </div>
+ </section>
 
-  <!-- Talks -->
-  <section class="section container" id="talks">
-    <div class="section-label">Speaking & Workshops</div>
-    <h2 class="section-title">Talks I've Given</h2>
-    <p class="section-desc">Workshops at DLSU, UST, QCU, and more — same energy I bring to every tutoring session.</p>
+ <!, Talks, >
+ <section class="section container" id="talks">
+ <div class="section-label">Speaking & Workshops</div>
+ <h2 class="section-title">Talks I've Given</h2>
+ <p class="section-desc">Workshops at DLSU, UST, QCU, and more: same energy I bring to every tutoring session.</p>
 
-    <div class="talks-grid" id="talksGrid">
-      {sortedTalks.map((talk, i) => {
-        const image = getTalkImage(talk);
-        return (
-          <a
-            href={getTalkUrl(talk.slug)}
-            class:list={['talk-card', i >= 6 && 'talk-item-hidden']}
-            target="_blank"
-            rel="noopener"
-          >
-            {image ? (
-              <img
-                src={`${PORTFOLIO_URL}${image}`}
-                alt=""
-                class="talk-thumb"
-                loading="lazy"
-                width="400"
-                height="225"
-              />
-            ) : (
-              <div class="talk-thumb talk-thumb-placeholder" aria-hidden="true" />
-            )}
-            <div class="talk-body">
-              <div class="talk-meta">
-                <span class:list={['talk-badge', talk.type === 'Workshop' && 'talk-badge-workshop']}>
-                  {talk.type}
-                </span>
-                {talk.date && <time datetime={talk.date}>{formatTalkDate(talk.date)}</time>}
-              </div>
-              <h3>{talk.title}</h3>
-              <p>{talk.event}</p>
-            </div>
-          </a>
-        );
-      })}
-    </div>
-    {sortedTalks.length > 6 && (
-      <button class="btn btn-outline talks-toggle" id="talksToggle" type="button">
-        Show all {sortedTalks.length} talks
-      </button>
-    )}
-    <p class="talks-more">
-      <a href={`${PORTFOLIO_URL}/talks`} target="_blank" rel="noopener">See full talk list →</a>
-    </p>
-  </section>
+ <div class="talks-grid" id="talksGrid">
+ {sortedTalks.map((talk, i) => {
+ const image = getTalkImage(talk);
+ return (
+ <a
+ href={getTalkUrl(talk.slug)}
+ class:list={['talk-card', i >= 6 && 'talk-item-hidden']}
+ target="_blank"
+ rel="noopener"
+ >
+ {image ? (
+ <img
+ src={`${PORTFOLIO_URL}${image}`}
+ alt=""
+ class="talk-thumb"
+ loading="lazy"
+ width="400"
+ height="225"
+ />
+ ) : (
+ <div class="talk-thumb talk-thumb-placeholder" aria-hidden="true" />
+ )}
+ <div class="talk-body">
+ <div class="talk-meta">
+ <span class:list={['talk-badge', talk.type === 'Workshop' && 'talk-badge-workshop']}>
+ {talk.type}
+ </span>
+ {talk.date && <time datetime={talk.date}>{formatTalkDate(talk.date)}</time>}
+ </div>
+ <h3>{talk.title}</h3>
+ <p>{talk.event}</p>
+ </div>
+ </a>
+ );
+ })}
+ </div>
+ {sortedTalks.length > 6 && (
+ <button class="btn btn-outline talks-toggle" id="talksToggle" type="button">
+ Show all {sortedTalks.length} talks
+ </button>
+ )}
+ <p class="talks-more">
+ <a href={`${PORTFOLIO_URL}/talks`} target="_blank" rel="noopener">See full talk list →</a>
+ </p>
+ </section>
 
-  <!-- Pricing -->
-  <section class="section container" id="pricing">
-    <div class="section-label">Pricing</div>
-    <h2 class="section-title">Rates & Packages</h2>
-    <p class="section-desc">Sessions are 1 hour long. Rates below are ranges — final price depends on subject, frequency, and format. I mostly tutor online, but can do face-to-face if you're around Biñan or Los Baños, Laguna. Group sessions are capped at 3 people max.</p>
+ <!, Pricing, >
+ <section class="section container" id="pricing">
+ <div class="section-label">Pricing</div>
+ <h2 class="section-title">Rates & Packages</h2>
+ <p class="section-desc">Sessions are 1 hour long. Rates below are ranges: final price depends on subject, frequency, and format. I mostly tutor online, but can do face-to-face if you're around Biñan or Los Baños, Laguna. Group sessions are capped at 3 people max.</p>
 
-    <div class="pricing-grid">
-      <div class="price-card">
-        <div class="price-label">Solo Online</div>
-        <div class="price-amount">₱350–500 <span>/ hr</span></div>
-        <div class="price-sub">1-on-1 focused session</div>
-        <ul class="price-features">
-          <li>Personalized pacing</li>
-          <li>Screen sharing & live coding</li>
-          <li>Session notes provided</li>
-          <li>Mock tests when you need them</li>
-          <li>Chat support between sessions</li>
-        </ul>
-        <a href="#book" class="btn btn-outline" style="width:100%;justify-content:center;">Book Solo</a>
-      </div>
+ <div class="pricing-grid">
+ <div class="price-card">
+ <div class="price-label">Solo Online</div>
+ <div class="price-amount">₱350–500 <span>/ hr</span></div>
+ <div class="price-sub">1-on-1 focused session</div>
+ <ul class="price-features">
+ <li>Personalized pacing</li>
+ <li>Screen sharing & live coding</li>
+ <li>Session notes provided</li>
+ <li>Mock tests when you need them</li>
+ <li>Chat support between sessions</li>
+ </ul>
+ <a href="#book" class="btn btn-outline" style="width:100%;justify-content:center;">Book Solo</a>
+ </div>
 
-      <div class="price-card featured">
-        <div class="price-label">Group Online</div>
-        <div class="price-amount">₱250–400 <span>/ hr per head</span></div>
-        <div class="price-sub">2 to 3 students, split the cost</div>
-        <ul class="price-features">
-          <li>Same quality, lower per-person rate</li>
-          <li>Collaborative problem-solving</li>
-          <li>Screen sharing & live coding</li>
-          <li>Shared session notes</li>
-          <li>Mock tests for the group</li>
-          <li>Max 3 students per group</li>
-        </ul>
-        <a href="#book" class="btn btn-primary" style="width:100%;justify-content:center;">Book Group</a>
-      </div>
+ <div class="price-card featured">
+ <div class="price-label">Group Online</div>
+ <div class="price-amount">₱250–400 <span>/ hr per head</span></div>
+ <div class="price-sub">2 to 3 students, split the cost</div>
+ <ul class="price-features">
+ <li>Same quality, lower per-person rate</li>
+ <li>Collaborative problem-solving</li>
+ <li>Screen sharing & live coding</li>
+ <li>Shared session notes</li>
+ <li>Mock tests for the group</li>
+ <li>Max 3 students per group</li>
+ </ul>
+ <a href="#book" class="btn btn-primary" style="width:100%;justify-content:center;">Book Group</a>
+ </div>
 
-      <div class="price-card">
-        <div class="price-label">Intensive Package</div>
-        <div class="price-amount">₱3,500–5,000 <span>/ 10 hrs</span></div>
-        <div class="price-sub">For exam prep or project sprints</div>
-        <ul class="price-features">
-          <li>10-hour tutoring block</li>
-          <li>Flexible scheduling</li>
-          <li>Priority booking</li>
-          <li>Custom study plan</li>
-        </ul>
-        <a href="#book" class="btn btn-outline" style="width:100%;justify-content:center;">Get Package</a>
-      </div>
-    </div>
-  </section>
+ <div class="price-card">
+ <div class="price-label">Intensive Package</div>
+ <div class="price-amount">₱3,500–5,000 <span>/ 10 hrs</span></div>
+ <div class="price-sub">For exam prep or project sprints</div>
+ <ul class="price-features">
+ <li>10-hour tutoring block</li>
+ <li>Flexible scheduling</li>
+ <li>Priority booking</li>
+ <li>Custom study plan</li>
+ </ul>
+ <a href="#book" class="btn btn-outline" style="width:100%;justify-content:center;">Get Package</a>
+ </div>
+ </div>
+ </section>
 
-  <!-- CTA -->
-  <section class="section container" id="book">
-    <div class="cta-block">
-      <h2>Ready to start?</h2>
-      <p>Send me an email at <strong>semariquit@gmail.com</strong>, or <a href="https://fb.com/stimmieuwu" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">message me on Facebook</a> so we can figure out what works for you.</p>
-      <div class="hero-cta">
-        <a href="mailto:semariquit@gmail.com" class="btn btn-primary">Email Me</a>
-        <a href="https://fb.com/stimmieuwu" class="btn btn-outline" target="_blank" rel="noopener">Facebook</a>
-      </div>
-    </div>
-  </section>
+ <!, CTA, >
+ <section class="section container" id="book">
+ <div class="cta-block">
+ <h2>Ready to start?</h2>
+ <p>Send me an email at <strong>semariquit@gmail.com</strong>, or <a href="https://fb.com/stimmieuwu" target="_blank" rel="noopener" style="color:var(, accent);text-decoration:underline;">message me on Facebook</a> so we can figure out what works for you.</p>
+ <div class="hero-cta">
+ <a href="mailto:semariquit@gmail.com" class="btn btn-primary">Email Me</a>
+ <a href="https://fb.com/stimmieuwu" class="btn btn-outline" target="_blank" rel="noopener">Facebook</a>
+ </div>
+ </div>
+ </section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-links">
-        <a href="https://github.com/smmariquit" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://codeforces.com/profile/manilaboi" target="_blank" rel="noopener">Codeforces</a>
-      </div>
-      <p>© 2026 Simonee Ezekiel Mariquit. All rights reserved.</p>
-    </div>
-  </footer>
+ <!, Footer, >
+ <footer class="footer">
+ <div class="container">
+ <div class="footer-links">
+ <a href="https://github.com/smmariquit" target="_blank" rel="noopener">GitHub</a>
+ <a href="https://codeforces.com/profile/manilaboi" target="_blank" rel="noopener">Codeforces</a>
+ </div>
+ <p>© 2026 Simonee Ezekiel Mariquit. All rights reserved.</p>
+ </div>
+ </footer>
 
-  <script>
-    const toggle = document.getElementById('navToggle');
-    const links = document.getElementById('navLinks');
-    toggle?.addEventListener('click', () => links?.classList.toggle('open'));
-    links?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links?.classList.remove('open')));
+ <script>
+ const toggle = document.getElementById('navToggle');
+ const links = document.getElementById('navLinks');
+ toggle?.addEventListener('click', () => links?.classList.toggle('open'));
+ links?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links?.classList.remove('open')));
 
-    const talksToggle = document.getElementById('talksToggle');
-    const talksGrid = document.getElementById('talksGrid');
-    talksToggle?.addEventListener('click', () => {
-      const expanded = talksGrid?.classList.toggle('expanded');
-      if (talksToggle) {
-        talksToggle.textContent = expanded
-          ? 'Show fewer'
-          : `Show all ${talksGrid?.querySelectorAll('.talk-card').length ?? 0} talks`;
-      }
-    });
-  </script>
+ const talksToggle = document.getElementById('talksToggle');
+ const talksGrid = document.getElementById('talksGrid');
+ talksToggle?.addEventListener('click', () => {
+ const expanded = talksGrid?.classList.toggle('expanded');
+ if (talksToggle) {
+ talksToggle.textContent = expanded
+ ? 'Show fewer'
+ : `Show all ${talksGrid?.querySelectorAll('.talk-card').length ?? 0} talks`;
+ }
+ });
+ </script>
 </Layout>
