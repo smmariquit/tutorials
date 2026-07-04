@@ -1,0 +1,45 @@
+name: Weekly PR digest
+
+on:
+  schedule:
+    # Monday 01:00 UTC = 09:00 Manila
+    - cron: "0 1 * * 1"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build digest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/weekly-pr-digest.py digest.md
+
+      - name: Ensure label exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create weekly-digest --repo "${{ github.repository }}" \
+            --color 0E8A16 --description "Automated weekly PR summary" 2>/dev/null || true
+
+      - name: Open weekly issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Weekly PR digest — $(date -u +%Y-%m-%d)"
+          existing=$(gh issue list --repo "${{ github.repository }}" \
+            --label weekly-digest --state open --json number --jq '.[0].number' || true)
+          if [ -n "$existing" ] && [ "$existing" != "null" ]; then
+            gh issue close "$existing" --repo "${{ github.repository }}" \
+              --comment "Superseded by newer weekly digest."
+          fi
+          gh issue create --repo "${{ github.repository }}" \
+            --title "$title" \
+            --label weekly-digest \
+            --body-file digest.md
