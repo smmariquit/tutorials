@@ -53,38 +53,38 @@ Static or static-exportable sites. Output dir is usually `dist/` (Astro/Vite) or
 ```yaml
 name: Deploy to Cloudflare Pages
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+ push:
+ branches: [main]
+ pull_request:
+ branches: [main]
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-      - name: Deploy preview
-        if: github.event_name == 'pull_request'
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=PROJECT_NAME --branch=pr-${{ github.event.pull_request.number }}
-      - name: Deploy production
-        if: github.ref == 'refs/heads/main'
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=PROJECT_NAME --branch=main
+ deploy:
+ runs-on: ubuntu-latest
+ permissions:
+ contents: read
+ deployments: write
+ steps:
+ - uses: actions/checkout@v4
+ - uses: actions/setup-node@v4
+ with:
+ node-version: "22"
+ cache: npm
+ - run: npm ci
+ - run: npm run build
+ - name: Deploy preview
+ if: github.event_name == 'pull_request'
+ uses: cloudflare/wrangler-action@v3
+ with:
+ apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+ accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+ command: pages deploy dist --project-name=PROJECT_NAME --branch=pr-${{ github.event.pull_request.number }}
+ - name: Deploy production
+ if: github.ref == 'refs/heads/main'
+ uses: cloudflare/wrangler-action@v3
+ with:
+ apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+ accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+ command: pages deploy dist --project-name=PROJECT_NAME --branch=main
 ```
 
 Adjust `dist` → `out` or `.` per repo. Create CF Pages project first: `npx wrangler pages project create PROJECT_NAME`.
@@ -210,8 +210,8 @@ Also **keep on Vercel** (not in scope for this handoff):
 
 ```bash
 vercel project ls
-vercel project rm <name>   # delete project
-vercel domains ls          # verify DNS before cutover
+vercel project rm <name> # delete project
+vercel domains ls # verify DNS before cutover
 ```
 
 ## Reference: Wrangler
