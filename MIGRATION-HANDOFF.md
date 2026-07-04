@@ -1,6 +1,6 @@
 # Vercel → Cloudflare Migration Handoff
 
-**Owner:** smmariquit (GitHub) / Vercel team `stimmie`  
+**Owner:** smmariquit (GitHub) / Vercel team `stimmie` 
 **Goal:** Reduce Vercel quota usage by migrating static/marketing sites to Cloudflare Pages, moving APIs to Workers, taking down retired apps, and deleting dead Vercel projects.
 
 **Do not assume prior conversation context. Execute from this document only.**
@@ -10,20 +10,20 @@
 ## Prerequisites
 
 1. Cloudflare account with `stimmie.dev` DNS (or ability to add CNAMEs)
-2. GitHub org/user: `smmariquit` (some repos may be under `uplbtools` — check `room-tba` separately; **do not migrate room-tba**)
+2. GitHub org/user: `smmariquit` (some repos may be under `uplbtools`: check `room-tba` separately; **do not migrate room-tba**)
 3. Create CF API token: Pages Edit + Workers Scripts Edit + DNS Edit
 4. Add GitHub secrets per repo (or org-level):
-   - `CLOUDFLARE_API_TOKEN`
-   - `CLOUDFLARE_ACCOUNT_ID`
+ - `CLOUDFLARE_API_TOKEN`
+ - `CLOUDFLARE_ACCOUNT_ID`
 5. **Deploy pattern (all static migrations):**
-   - Build in GitHub Actions (`npm ci && npm run build` or `bun install && bun run build`)
-   - Deploy with `npx wrangler pages deploy <OUT_DIR> --project-name=<cf-project>`
-   - **Do not** connect CF Pages Git integration (use Direct Upload / Wrangler to avoid 500 builds/mo limit)
+ - Build in GitHub Actions (`npm ci && npm run build` or `bun install && bun run build`)
+ - Deploy with `npx wrangler pages deploy <OUT_DIR>, project-name=<cf-project>`
+ - **Do not** connect CF Pages Git integration (use Direct Upload / Wrangler to avoid 500 builds/mo limit)
 6. After CF is live + DNS cutover verified, disconnect repo from Vercel (or delete Vercel project)
 
 ---
 
-## Tier 1 — Migrate to Cloudflare Pages
+## Tier 1: Migrate to Cloudflare Pages
 
 Static or static-exportable sites. Output dir is usually `dist/` (Astro/Vite) or repo root (plain HTML).
 
@@ -40,7 +40,7 @@ Static or static-exportable sites. Output dir is usually `dist/` (Astro/Vite) or
 | `scaffolding` | scaffolding.stimmie.dev | `smmariquit/scaffolding` | `npm run build` | `dist/` | Vite |
 | `web-mobile` | web.stimmie.dev | `smmariquit/web-mobile` | `npm run build` | `dist/` | Verify framework |
 | `ph-github-top` | (no custom domain on Vercel) | `smmariquit/ph-github-top` | `npm run build` | `dist/` | Assign `*.stimmie.dev` if desired |
-| `bautista-cayabyab-clan` | bautista-cayabyab-clan.vercel.app | `smmariquit/bautista-cayabyab-clan` | `npm run build` | `out/` or `dist/` | Next.js — may need `output: 'export'` |
+| `bautista-cayabyab-clan` | bautista-cayabyab-clan.vercel.app | `smmariquit/bautista-cayabyab-clan` | `npm run build` | `out/` or `dist/` | Next.js: may need `output: 'export'` |
 | `repairs` | repairs.stimmie.dev | `smmariquit/repairs` | `npm run build` | `out/` or `dist/` | Next.js marketing |
 | `uxelbi` | www.uxelbi.org | `smmariquit/uxelbi` | `npm run build` | `out/` or `dist/` | External domain |
 | `uplb-dsg-website` | www.uplbdsg.org | `smmariquit/uplb-dsg-website` | `npm run build` | `dist/` | External domain |
@@ -91,26 +91,26 @@ Adjust `dist` → `out` or `.` per repo. Create CF Pages project first: `npx wra
 
 ### DNS cutover
 
-For each `*.stimmie.dev` subdomain: CNAME to `<project>.pages.dev` (or custom domain in CF Pages UI).  
+For each `*.stimmie.dev` subdomain: CNAME to `<project>.pages.dev` (or custom domain in CF Pages UI). 
 For apex/external domains (`uplbdsg.org`, `uxelbi.org`, `hearthcraft.net`, `joinpizza.fun`, `uplbtools.me`): update DNS at registrar or CF zone.
 
 ---
 
-## Tier 2 — CF Pages + Workers (or static only)
+## Tier 2: CF Pages + Workers (or static only)
 
 | Vercel Project | Action | Repo | Notes |
 |----------------|--------|------|-------|
 | `eductools` | **Migrate** | `smmariquit/eductools` | Vite SPA → Pages (`dist/`). Move `api/og.tsx` to **Cloudflare Worker** (replaces `@vercel/og`). `vercel.json` has rewrite to `index.html` + `api/og` function. |
-| `atlas-of-my-skies` | **Migrate** | `smmariquit/atlas-of-my-skies` | Next.js — static export if possible, else keep minimal SSR on CF with OpenNext later |
-| `illumina` | **TAKE DOWN** | `smmariquit/illumina` | Flutter/hackathon — remove Vercel project, do not migrate |
+| `atlas-of-my-skies` | **Migrate** | `smmariquit/atlas-of-my-skies` | Next.js: static export if possible, else keep minimal SSR on CF with OpenNext later |
+| `illumina` | **TAKE DOWN** | `smmariquit/illumina` | Flutter/hackathon: remove Vercel project, do not migrate |
 | `doctor-now-global` | **TAKE DOWN** | `smmariquit/doctor-now-global` | User does not need it live |
 | `doctor-now-global-ui` | **TAKE DOWN** | (subfolder in doctor-now-global repo) | Delete Vercel project |
 
-**Skip:** pharmadash, math-mock (replaced by tutee portal — remove from Vercel if present)
+**Skip:** pharmadash, math-mock (replaced by tutee portal: remove from Vercel if present)
 
 ---
 
-## Tier 4 — Move APIs to Cloudflare Workers
+## Tier 4: Move APIs to Cloudflare Workers
 
 Migrate serverless/API routes off Vercel. Frontends can move to CF Pages in same pass or stay on Vercel until API is moved.
 
@@ -141,7 +141,7 @@ After Workers live: remove Vercel project or leave frontend-only on CF Pages.
 
 ---
 
-## Tier 5 — Delete Vercel projects only
+## Tier 5: Delete Vercel projects only
 
 Remove from Vercel dashboard (`vercel project rm <name>`). No migration.
 
