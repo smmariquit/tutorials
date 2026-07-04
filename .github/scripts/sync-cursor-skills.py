@@ -13,16 +13,8 @@ from pathlib import Path
 OWNER = "smmariquit"
 TEMPLATE_ROOT = Path(__file__).resolve().parents[1] / "cursor-templates"
 
-# Already have project-specific skills — only add baseline if completely missing
-SKIP_IF_SKILLS_GTE = 2
-RICH_REPOS = {
-    "eductools",
-    "room-tba",
-    "tools",
-    "room-tba-feat-isr",
-    "room-tba-notify",
-    "room-tba-staging-notify",
-}
+# Rich repos still get ponytail + caveman rules; skip only if both rules already exist
+RICH_REPOS: set[str] = set()
 
 CF_REPOS = {
     "tutorials",
@@ -125,13 +117,9 @@ def files_to_sync(repo: str) -> list[tuple[str, Path]]:
 
 
 def sync_repo(owner: str, repo: str, dry_run: bool = False) -> str:
-    if repo in RICH_REPOS:
-        return "skip-rich"
-    if count_skills(owner, repo) >= SKIP_IF_SKILLS_GTE:
-        return "skip-has-skills"
-
-    targets = files_to_sync(repo)
-    if file_exists(owner, repo, ".cursor/skills/repo-baseline/SKILL.md"):
+    if file_exists(owner, repo, ".cursor/skills/repo-baseline/SKILL.md") and file_exists(
+        owner, repo, ".cursor/rules/caveman.mdc"
+    ):
         return "skip-already"
 
     if dry_run:
