@@ -117,21 +117,21 @@ def files_to_sync(repo: str) -> list[tuple[str, Path]]:
 
 
 def sync_repo(owner: str, repo: str, dry_run: bool = False) -> str:
-    if file_exists(owner, repo, ".cursor/skills/repo-baseline/SKILL.md") and file_exists(
-        owner, repo, ".cursor/rules/caveman.mdc"
-    ):
+    targets = files_to_sync(repo)
+    missing = [(p, l) for p, l in targets if not file_exists(owner, repo, p)]
+    if not missing:
         return "skip-already"
 
     if dry_run:
-        return f"would-sync-{len(targets)}-files"
+        return f"would-sync-{len(missing)}-files"
 
     ok = 0
-    for gh_path, local in targets:
+    for gh_path, local in missing:
         content = local.read_text(encoding="utf-8")
-        if put_file(owner, repo, gh_path, content, "Add baseline Cursor skills and rules"):
+        if put_file(owner, repo, gh_path, content, "Add Cursor baseline, ponytail, and caveman rules"):
             ok += 1
-        time.sleep(0.3)  # gentle rate limit
-    return f"synced-{ok}-{len(targets)}"
+        time.sleep(0.25)
+    return f"synced-{ok}-{len(missing)}"
 
 
 def main() -> None:
