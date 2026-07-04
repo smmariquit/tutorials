@@ -70,9 +70,7 @@ def is_ui_tsx_line(line: str) -> bool:
         return True
     if re.search(r" — ", line) and not s.startswith("//") and not s.startswith("*"):
         return True
-
-
-def deslop_tsx(path: Path) -> str:
+    return False
     lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
     out: list[str] = []
     for line in lines:
