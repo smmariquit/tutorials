@@ -74,7 +74,18 @@ REPLACEMENTS: list[tuple[re.Pattern[str], str]] = [
 
 
 def gh_json(args: list[str]) -> object:
-    return json.loads(subprocess.check_output(["gh", *args], text=True))
+    for attempt in range(6):
+        try:
+            return json.loads(subprocess.check_output(["gh", *args], text=True))
+        except subprocess.CalledProcessError as exc:
+            if "rate limit" not in (exc.stderr or "").lower() and "403" not in str(exc):
+                raise
+            if attempt == 5:
+                raise
+            wait = 60 * (attempt + 1)
+            print(f"Rate limited — sleeping {wait}s", file=sys.stderr)
+            time.sleep(wait)
+    raise RuntimeError("unreachable")
 
 
 def list_repos(owner: str) -> list[str]:

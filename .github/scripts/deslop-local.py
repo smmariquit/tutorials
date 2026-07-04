@@ -68,9 +68,18 @@ def process_repo(repo: Path) -> dict:
     if result["fixed"] and not DRY:
         subprocess.run(["git", "add", "-A"], cwd=repo, check=True)
         subprocess.run(["git", "commit", "-m", COMMIT_MSG], cwd=repo, check=True)
-        push = subprocess.run(["git", "push"], cwd=repo, capture_output=True, text=True)
-        if push.returncode != 0:
-            result["push_error"] = push.stderr.strip() or push.stdout.strip()
+        pull = subprocess.run(
+            ["git", "pull", "--rebase", "--autostash"],
+            cwd=repo,
+            capture_output=True,
+            text=True,
+        )
+        if pull.returncode != 0:
+            result["push_error"] = f"pull failed: {pull.stderr.strip() or pull.stdout.strip()}"
+        else:
+            push = subprocess.run(["git", "push"], cwd=repo, capture_output=True, text=True)
+            if push.returncode != 0:
+                result["push_error"] = push.stderr.strip() or push.stdout.strip()
     return result
 
 
