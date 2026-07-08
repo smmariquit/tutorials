@@ -3,12 +3,10 @@ import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 
 const teach = [
- { name: 'Algebra & Trigonometry', cat: '#c2691f' },
- { name: 'Geometry', cat: '#c2691f' },
- { name: 'Physics', cat: '#7048b0' },
- { name: 'General Science', cat: '#7048b0' },
- { name: 'Computer Science', cat: '#2563a8' },
- { name: 'Python & Data', cat: '#2563a8' },
+ 'Mathematics',
+ 'Computer Science',
+ 'Python & Data',
+ 'Physics & Science',
 ];
 ---
 
@@ -20,11 +18,7 @@ const teach = [
  <div class="badge">Accepting New Students</div>
  <h1>Tutoring: Math, CS &amp; Programming</h1>
  <p class="subtitle">Simonee Ezekiel Mariquit</p>
- <p class="tagline">
- <span class="cred">🎓 UPLB CS Student</span>
- <span class="cred">🛠️ Builder</span>
- <span class="cred">🎤 Workshop Speaker</span>
- </p>
+ <p class="tagline">UPLB Computer Science student, builder, and workshop speaker.</p>
  </div>
  <img class="header-photo" src="/simonee.jpg" alt="Simonee Ezekiel Mariquit" width="150" height="150" />
  </div>
@@ -33,21 +27,26 @@ const teach = [
  <h3>What I teach</h3>
  <ul class="pill-list">
  {teach.map(t => (
- <li style={`--cat: ${t.cat};`}>{t.name}</li>
+ <li>{t}</li>
  ))}
  </ul>
+ <p class="approach">Hands-on and project-based. We build real things, not just work through theory: from exam prep to shipping actual projects.</p>
  </div>
 
  <div class="card-pricing">
  <h3>Pricing</h3>
  <div class="rates">
  <div class="rate-box">
- <span class="label"><span class="rate-icon">👤</span> Solo online</span>
+ <span class="label">Solo online</span>
  <span class="price">₱350-500<span>/hr</span></span>
  </div>
  <div class="rate-box highlight">
- <span class="label"><span class="rate-icon">👥</span> Group (max 3)</span>
+ <span class="label">Group (max 3)</span>
  <span class="price">₱250-400<span>/hr per head</span></span>
+ </div>
+ <div class="rate-box">
+ <span class="label">Intensive pack</span>
+ <span class="price">₱3,500-5,000<span>/10 hrs</span></span>
  </div>
  </div>
  </div>
@@ -55,8 +54,8 @@ const teach = [
  <div class="card-contact">
  <h3>Get in touch</h3>
  <div class="contact-row">
- <span class="contact">✉️ semariquit@gmail.com</span>
- <span class="contact">💬 Simonee Ezekiel Mariquit on Facebook</span>
+ <span class="contact">semariquit@gmail.com</span>
+ <span class="contact">Simonee Ezekiel Mariquit on Facebook</span>
  </div>
  </div>
  </div>
@@ -163,23 +162,9 @@ const teach = [
  }
 
 .tagline {
- display: flex;
- flex-wrap: wrap;
- gap: 10px;
- margin-bottom: 8px;
- }
-
-.cred {
- display: inline-flex;
- align-items: center;
- gap: 6px;
- background: #f5f2ec;
- border: 1px solid #d8d3c9;
+ font-size: 1.35rem;
  color: #5c5850;
- font-size: 1.15rem;
- font-weight: 600;
- padding: 6px 14px;
- border-radius: 999px;
+ margin-bottom: 8px;
  }
 
 .card-body h3,
@@ -202,7 +187,7 @@ const teach = [
 
 .pill-list {
  display: grid;
- grid-template-columns: repeat(3, 1fr);
+ grid-template-columns: repeat(2, 1fr);
  gap: 14px;
  list-style: none;
  padding: 0;
@@ -210,9 +195,8 @@ const teach = [
  }
 
 .pill-list li {
- background: color-mix(in srgb, var(--cat) 8%, #ffffff);
- border: 1px solid color-mix(in srgb, var(--cat) 35%, #d8d3c9);
- border-left: 6px solid var(--cat);
+ background: #f5f2ec;
+ border: 1px solid #d8d3c9;
  color: #1a1510;
  padding: 18px 14px;
  border-radius: 16px;
@@ -222,13 +206,20 @@ const teach = [
  line-height: 1.35;
  }
 
+.approach {
+ font-size: 1.3rem;
+ color: #5c5850;
+ line-height: 1.5;
+ margin-top: 18px;
+ }
+
 .card-pricing {
  margin-top: 8px;
  }
 
 .rates {
  display: grid;
- grid-template-columns: 1fr 1fr;
+ grid-template-columns: repeat(3, 1fr);
  gap: 16px;
  }
 
@@ -247,13 +238,8 @@ const teach = [
  border-color: #2563a8;
  }
 
-.rate-icon { font-size: 1.4rem; }
-
 .label {
- display: inline-flex;
- align-items: center;
- gap: 8px;
- font-size: 1.15rem;
+ font-size: 1.1rem;
  font-weight: 700;
  color: #5c5850;
  }
@@ -263,13 +249,14 @@ const teach = [
  }
 
 .price {
- font-size: 2.4rem;
+ font-size: 1.85rem;
  font-weight: 800;
  color: #1a1510;
  display: flex;
  align-items: baseline;
- gap: 6px;
- line-height: 1;
+ flex-wrap: wrap;
+ gap: 4px;
+ line-height: 1.1;
  }
 
 .price span {
