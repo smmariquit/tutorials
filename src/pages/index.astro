@@ -14,7 +14,7 @@ const sortedTalks = sortTalksByDate(allTalks);
 
 const subjects = [
  {
- emoji: '🧮', name: 'Mathematics',
+ emoji: '🧮', name: 'Mathematics', accent: '#c2691f',
  desc: 'Foundations in algebra, calculus, and discrete mathematics for any university curriculum.',
  topics: [
  { general: 'Algebra & Trigonometry', uplb: 'MATH 17' },
@@ -23,7 +23,7 @@ const subjects = [
  ],
  },
  {
- emoji: '💻', name: 'Computer Science & Programming',
+ emoji: '💻', name: 'Computer Science & Programming', accent: '#2563a8',
  desc: 'Core computer science theory, algorithms, and practical programming fundamentals.',
  topics: [
  { general: 'Fundamentals & OOP', uplb: 'CMSC 21 & 22' },
@@ -34,7 +34,7 @@ const subjects = [
  ],
  },
  {
- emoji: '📊', name: 'Data & Statistics',
+ emoji: '📊', name: 'Data & Statistics', accent: '#7048b0',
  desc: 'Data analysis, applied statistics, and machine learning workflows.',
  topics: [
  { general: 'Probability & Statistics Fundamentals', uplb: 'STAT 101' },
@@ -44,7 +44,7 @@ const subjects = [
  ],
  },
  {
- emoji: '📝', name: 'K-12 & CET Review',
+ emoji: '📝', name: 'K-12 & CET Review', accent: '#b03b4e',
  desc: 'I can teach pretty much anything in the K-12 curriculum. I also passed UPCAT, ACET, DCAT, and the DOST Scholarship Exam.',
  topics: [
  { general: 'College Entrance Test (CET) Prep' },
@@ -54,7 +54,7 @@ const subjects = [
  ],
  },
  {
- emoji: '🛠️', name: 'Languages & Tools',
+ emoji: '🛠️', name: 'Languages & Tools', accent: '#2d8079',
  desc: 'The actual tech stack I use to build production apps and win hackathons.',
  topics: [
  { general: 'Python' },
@@ -75,7 +75,7 @@ const heroStats = [
 ---
 
 <Layout title="Simonee Tutoring: Math, CS & Programming">
- <!, Nav, >
+ <!-- Nav -->
  <nav class="nav" id="navbar">
  <div class="nav-inner">
  <a href="#hero" class="nav-logo">Simonee</a>
@@ -91,7 +91,7 @@ const heroStats = [
  </div>
  </nav>
 
- <!, Hero, >
+ <!-- Hero -->
  <section class="hero" id="hero">
  <div class="container hero-inner">
  <div class="hero-badge">Accepting new students (Online or F2F in Laguna)</div>
@@ -114,16 +114,23 @@ const heroStats = [
  </div>
  </section>
 
- <!, About, >
+ <!-- About -->
  <section class="section container" id="about">
+ <div class="about-grid">
+ <div class="about-photo">
+ <img src="/simonee.jpg" alt="Simonee Ezekiel Mariquit" width="180" height="180" loading="lazy" />
+ </div>
+ <div class="about-text">
  <div class="section-label">About Me</div>
  <h2 class="section-title">Simonee Ezekiel Mariquit</h2>
- <p class="section-desc">
+ <p class="section-desc" style="margin-bottom:0;">
  Computer Science student at <strong>UPLB</strong>, DOST-SEI scholar. Through <a href="https://tutorialhub.ph/" target="_blank" rel="noopener"><strong>TutorHub</strong></a> and private sessions, I teach math, programming, CS theory, and data science: If you are cramming for an exam or building something cool.
  </p>
+ </div>
+ </div>
  </section>
 
- <!, Credentials, >
+ <!-- Credentials -->
  <section class="section container" id="credentials">
  <div class="section-label">Credentials</div>
  <h2 class="section-title">Why me?</h2>
@@ -168,7 +175,7 @@ const heroStats = [
  </div>
  </section>
 
- <!, Subjects, >
+ <!-- Subjects -->
  <section class="section container" id="subjects">
  <div class="section-label">What I Teach</div>
  <h2 class="section-title">Course Focus</h2>
@@ -176,7 +183,7 @@ const heroStats = [
 
  <div class="subjects-grid">
  {subjects.map(s => (
- <div class="subject-card">
+ <div class="subject-card" style={`--cat: ${s.accent};`}>
  <div class="subject-emoji">{s.emoji}</div>
  <h3>{s.name}</h3>
  <p>{s.desc}</p>
@@ -195,7 +202,7 @@ const heroStats = [
  </div>
  </section>
 
- <!, Talks, >
+ <!-- Talks -->
  <section class="section container" id="talks">
  <div class="section-label">Speaking & Workshops</div>
  <h2 class="section-title">Talks I've Given</h2>
@@ -247,7 +254,7 @@ const heroStats = [
  </p>
  </section>
 
- <!, Pricing, >
+ <!-- Pricing -->
  <section class="section container" id="pricing">
  <div class="section-label">Pricing</div>
  <h2 class="section-title">Rates & Packages</h2>
@@ -255,6 +262,7 @@ const heroStats = [
 
  <div class="pricing-grid">
  <div class="price-card">
+ <div class="price-icon">👤</div>
  <div class="price-label">Solo Online</div>
  <div class="price-amount">₱350–500 <span>/ hr</span></div>
  <div class="price-sub">1-on-1 focused session</div>
@@ -269,6 +277,7 @@ const heroStats = [
  </div>
 
  <div class="price-card featured">
+ <div class="price-icon">👥</div>
  <div class="price-label">Group Online</div>
  <div class="price-amount">₱250–400 <span>/ hr per head</span></div>
  <div class="price-sub">2 to 3 students, split the cost</div>
@@ -284,6 +293,7 @@ const heroStats = [
  </div>
 
  <div class="price-card">
+ <div class="price-icon">⚡</div>
  <div class="price-label">Intensive Package</div>
  <div class="price-amount">₱3,500–5,000 <span>/ 10 hrs</span></div>
  <div class="price-sub">For exam prep or project sprints</div>
@@ -298,11 +308,11 @@ const heroStats = [
  </div>
  </section>
 
- <!, CTA, >
+ <!-- CTA -->
  <section class="section container" id="book">
  <div class="cta-block">
  <h2>Ready to start?</h2>
- <p>Send me an email at <strong>semariquit@gmail.com</strong>, or <a href="https://fb.com/stimmieuwu" target="_blank" rel="noopener" style="color:var(, accent);text-decoration:underline;">message me on Facebook</a> so we can figure out what works for you.</p>
+ <p>Send me an email at <strong>semariquit@gmail.com</strong>, or <a href="https://fb.com/stimmieuwu" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:underline;">message me on Facebook</a> so we can figure out what works for you.</p>
  <div class="hero-cta">
  <a href="mailto:semariquit@gmail.com" class="btn btn-primary">Email Me</a>
  <a href="https://fb.com/stimmieuwu" class="btn btn-outline" target="_blank" rel="noopener">Facebook</a>
@@ -310,7 +320,7 @@ const heroStats = [
  </div>
  </section>
 
- <!, Footer, >
+ <!-- Footer -->
  <footer class="footer">
  <div class="container">
  <div class="footer-links">
