@@ -1,27 +1,40 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+
+const teach = [
+ { name: 'Algebra & Trigonometry', cat: '#c2691f' },
+ { name: 'Geometry', cat: '#c2691f' },
+ { name: 'Physics', cat: '#7048b0' },
+ { name: 'General Science', cat: '#7048b0' },
+ { name: 'Computer Science', cat: '#2563a8' },
+ { name: 'Python & Data', cat: '#2563a8' },
+];
 ---
 
 <Layout title="Tutoring Social Card">
  <div class="social-wrapper">
  <div class="social-card" id="capture-area">
  <div class="card-header">
+ <div class="header-text">
  <div class="badge">Accepting New Students</div>
  <h1>Tutoring: Math, CS &amp; Programming</h1>
  <p class="subtitle">Simonee Ezekiel Mariquit</p>
- <p class="tagline">UPLB Computer Science Student, Builder & Workshop Speaker</p>
+ <p class="tagline">
+ <span class="cred">🎓 UPLB CS Student</span>
+ <span class="cred">🛠️ Builder</span>
+ <span class="cred">🎤 Workshop Speaker</span>
+ </p>
+ </div>
+ <img class="header-photo" src="/simonee.jpg" alt="Simonee Ezekiel Mariquit" width="150" height="150" />
  </div>
 
  <div class="card-body">
  <h3>What I teach</h3>
  <ul class="pill-list">
- <li>Algebra &amp; Trigonometry</li>
- <li>Geometry</li>
- <li>Physics</li>
- <li>General Science</li>
- <li>Computer Science</li>
- <li>Python &amp; Data</li>
+ {teach.map(t => (
+ <li style={`--cat: ${t.cat};`}>{t.name}</li>
+ ))}
  </ul>
  </div>
 
@@ -29,11 +42,11 @@ import '../styles/global.css';
  <h3>Pricing</h3>
  <div class="rates">
  <div class="rate-box">
- <span class="label">Solo online</span>
+ <span class="label"><span class="rate-icon">👤</span> Solo online</span>
  <span class="price">₱350-500<span>/hr</span></span>
  </div>
  <div class="rate-box highlight">
- <span class="label">Group (max 3)</span>
+ <span class="label"><span class="rate-icon">👥</span> Group (max 3)</span>
  <span class="price">₱250-400<span>/hr per head</span></span>
  </div>
  </div>
@@ -42,8 +55,8 @@ import '../styles/global.css';
  <div class="card-contact">
  <h3>Get in touch</h3>
  <div class="contact-row">
- <span class="contact">semariquit@gmail.com</span>
- <span class="contact">Simonee Ezekiel Mariquit on Facebook</span>
+ <span class="contact">✉️ semariquit@gmail.com</span>
+ <span class="contact">💬 Simonee Ezekiel Mariquit on Facebook</span>
  </div>
  </div>
  </div>
@@ -62,15 +75,29 @@ import '../styles/global.css';
  }
 
 .social-wrapper {
+ position: relative;
  width: 1080px;
  height: 1080px;
  display: flex;
  align-items: center;
  justify-content: center;
  background: linear-gradient(160deg, #dce8f5 0%, #f0efeb 45%, #e6e2dc 100%);
- }
+ overflow: hidden;
+}
+
+/* subtle in-action teaching cover behind the card */
+.social-wrapper::before {
+ content: '';
+ position: absolute;
+ inset: 0;
+ background: url('/teaching.jpg') center/cover no-repeat;
+ opacity: 0.14;
+ pointer-events: none;
+}
 
 .social-card {
+ position: relative;
+ z-index: 1;
  background: #ffffff;
  width: 1020px;
  height: 1020px;
@@ -78,11 +105,30 @@ import '../styles/global.css';
  border: 1px solid #c9c4ba;
  box-shadow:
  0 1px 2px rgba(44, 42, 38, 0.04),
- 0 12px 32px rgba(44, 42, 38, 0.1);
+ 0 12px 32px rgba(44, 42, 38, 0.18);
  padding: 56px 56px 52px;
  display: flex;
  flex-direction: column;
  justify-content: space-between;
+ }
+
+.card-header {
+ display: flex;
+ align-items: flex-start;
+ justify-content: space-between;
+ gap: 24px;
+ }
+
+.header-text { flex: 1; }
+
+.header-photo {
+ flex-shrink: 0;
+ width: 150px;
+ height: 150px;
+ border-radius: 22px;
+ object-fit: cover;
+ border: 1px solid #c9c4ba;
+ box-shadow: 0 4px 16px rgba(44, 42, 38, 0.14);
  }
 
 .badge {
@@ -113,13 +159,27 @@ import '../styles/global.css';
  font-size: 1.6rem;
  color: #1a1510;
  font-weight: 700;
- margin-bottom: 6px;
+ margin-bottom: 12px;
  }
 
 .tagline {
- font-size: 1.35rem;
- color: #5c5850;
+ display: flex;
+ flex-wrap: wrap;
+ gap: 10px;
  margin-bottom: 8px;
+ }
+
+.cred {
+ display: inline-flex;
+ align-items: center;
+ gap: 6px;
+ background: #f5f2ec;
+ border: 1px solid #d8d3c9;
+ color: #5c5850;
+ font-size: 1.15rem;
+ font-weight: 600;
+ padding: 6px 14px;
+ border-radius: 999px;
  }
 
 .card-body h3,
@@ -150,8 +210,9 @@ import '../styles/global.css';
  }
 
 .pill-list li {
- background: #f5f2ec;
- border: 1px solid #d8d3c9;
+ background: color-mix(in srgb, var(--cat) 8%, #ffffff);
+ border: 1px solid color-mix(in srgb, var(--cat) 35%, #d8d3c9);
+ border-left: 6px solid var(--cat);
  color: #1a1510;
  padding: 18px 14px;
  border-radius: 16px;
@@ -186,7 +247,12 @@ import '../styles/global.css';
  border-color: #2563a8;
  }
 
+.rate-icon { font-size: 1.4rem; }
+
 .label {
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
  font-size: 1.15rem;
  font-weight: 700;
  color: #5c5850;
