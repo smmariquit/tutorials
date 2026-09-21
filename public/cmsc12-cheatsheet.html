@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CMSC 12 Cheat Sheet</title>
+<style>
+  @page { size: A4; margin: 14mm 14mm; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 10pt; line-height: 1.35; color: #111; margin: 0; }
+  h1 { font-size: 15pt; margin: 0 0 2px; }
+  .meta { color: #555; font-size: 9pt; margin-bottom: 10px; }
+  h2 { font-size: 11.5pt; margin: 12px 0 4px; border-bottom: 1px solid #999; padding-bottom: 2px; }
+  h3 { font-size: 10.5pt; margin: 8px 0 2px; }
+  p, li { margin: 2px 0; }
+  ul, ol { padding-left: 18px; margin: 2px 0; }
+  pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 9pt; background: #f3f2ee; padding: 5px 7px; margin: 3px 0 6px; white-space: pre; }
+  code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 9.2pt; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 18px; }
+  .pb { page-break-before: always; }
+  table { border-collapse: collapse; font-size: 9.5pt; margin: 4px 0; }
+  td, th { border: 1px solid #bbb; padding: 2px 6px; text-align: left; vertical-align: top; }
+</style>
+</head>
+<body>
+<h1>CMSC 12 Cheat Sheet: Sequential, Conditional, Iterative</h1>
+<p class="meta">Tutor copy. Session with Alexandra and Ernstine, Mon 21 Sep 2026, 2 pm, Main Lib. Prof. Albacea section. Plan: pre-test 5, discuss 10, guided 25, post-test 15.</p>
+
+<div class="cols">
+<div>
+<h2>Sequential</h2>
+<pre>r = float(input("Enter the radius: "))
+h = float(input("Enter the height: "))
+pi = 3.14
+area_circ = pi * r * r
+circumference = 2 * pi * r
+area_rect = circumference * h
+sa_cyl = area_rect + 2 * area_circ
+print("The surface area is", sa_cyl)</pre>
+<ul>
+  <li><code>input()</code> returns str. Typecast: <code>int()</code>, <code>float()</code>.</li>
+  <li><code>=</code> assigns, <code>==</code> compares.</li>
+  <li><code>print(a, b)</code> space-separated. <code>end=""</code> no newline. <code>print()</code> newline.</li>
+  <li><code>/</code> float division, <code>//</code> integer division, <code>%</code> remainder, <code>**</code> power.</li>
+</ul>
+
+<h2>Conditional</h2>
+<pre>n = float(input("Enter a number: "))
+if n &lt; 0:
+    print("Negative")
+elif n &gt; 0:
+    print("Positive")
+else:
+    print("Zero")</pre>
+<pre>n = int(input("Enter an integer: "))
+if n % 2 == 0:
+    if n % 3 == 0:
+        print("divisible by 2 and 3")
+    else:
+        print("divisible by 2 only")
+elif n % 3 == 0:
+    print("divisible by 3 only")
+else:
+    print("not divisible by 2 nor 3")</pre>
+<ul>
+  <li>One branch runs per chain. Order matters.</li>
+  <li><code>and</code>, <code>or</code>, <code>not</code>. Compare: <code>&lt; &lt;= &gt; &gt;= == !=</code>.</li>
+  <li>Indentation is the block. 4 spaces.</li>
+</ul>
+</div>
+
+<div>
+<h2>Iterative</h2>
+<pre>n = int(input("Enter an integer: "))
+i = n
+while i &gt; 0:        # init, test, update
+    print(i)
+    i = i - 1
+
+for i in range(n, 0, -1):
+    print(i)</pre>
+<table>
+  <tr><th>range</th><th>values</th></tr>
+  <tr><td>range(5)</td><td>0 1 2 3 4</td></tr>
+  <tr><td>range(1, 6)</td><td>1 2 3 4 5</td></tr>
+  <tr><td>range(5, 0, -1)</td><td>5 4 3 2 1</td></tr>
+  <tr><td>range(0, 10, 2)</td><td>0 2 4 6 8</td></tr>
+</table>
+<pre># x^y by repeated multiplication
+product = x
+for counter in range(1, y):
+    product = product * x
+
+# guess the number: loop until correct
+import random
+r = random.randint(1, 100)
+while True:
+    g = int(input("Guess: "))
+    if g == r:
+        print("Correct!")
+        break
+    elif g &gt; r:
+        print("Lower!")
+    else:
+        print("Higher!")
+
+# square root, guess and check
+error = 0.01
+g = x / 2
+while g*g &gt; x + error or g*g &lt; x - error:
+    g = (g + x / g) / 2</pre>
+<ul>
+  <li>while: unknown count. for: known count.</li>
+  <li>Forgot the update line = infinite loop.</li>
+  <li><code>break</code> exits loop. <code>while True</code> + <code>break</code> = repeat until.</li>
+</ul>
+</div>
+</div>
+
+<h2>Pattern printing (nested loops)</h2>
+<p>Recipe: draw n = 4 on paper. Per row i (from 0), count spaces and chars. Find formulas. Outer loop = rows, inner loops = one row, <code>print()</code> ends row.</p>
+<div class="cols">
+<div>
+<pre># filled square n x n
+for i in range(n):
+    for j in range(n):
+        print("X", end="")
+    print()
+
+# hollow square
+for i in range(n):
+    for j in range(n):
+        if i == 0 or j == 0 or i == n-1 or j == n-1:
+            print("X", end="")
+        else:
+            print(" ", end="")
+    print()
+
+# right triangle, height n
+for i in range(n):
+    for j in range(i + 1):
+        print("*", end="")
+    print()</pre>
+</div>
+<div>
+<pre># equilateral (centered) triangle, height n
+# row i: spaces = n-1-i, stars = 2i+1
+for i in range(n):
+    for s in range(n - 1 - i):
+        print(" ", end="")
+    for k in range(2 * i + 1):
+        print("*", end="")
+    print()
+
+# same, string repeat shortcut
+for i in range(n):
+    print(" " * (n-1-i) + "*" * (2*i+1))
+
+# upside down: range(n-1, -1, -1)
+# box L wide, W tall: outer range(W), inner range(L)
+# christmas tree: repeat the triangle
+#   n times, each one wider, same width base
+#   (pad spaces using the final width)</pre>
+</div>
+</div>
+<table>
+  <tr><th>row i</th><td>0</td><td>1</td><td>2</td><td>3</td></tr>
+  <tr><th>spaces (n=4)</th><td>3</td><td>2</td><td>1</td><td>0</td></tr>
+  <tr><th>stars</th><td>1</td><td>3</td><td>5</td><td>7</td></tr>
+</table>
+
+<h2>Pre-test answers</h2>
+<ol>
+  <li>TypeError: str + int. Fix with <code>int(input())</code>.</li>
+  <li><code>both</code></li>
+  <li><code>5 4 3 2 1</code></li>
+  <li><code>*</code> / <code>**</code> / <code>***</code> on three lines.</li>
+  <li><code>16</code>. Body runs 3 times (counter = 1, 2, 3).</li>
+</ol>
+
+<h2>Guided problem solutions</h2>
+<div class="cols">
+<div>
+<h3>A. Divisors, prime (ex. 1, 6)</h3>
+<pre>n = int(input("Enter n: "))
+count = 0
+for d in range(1, n + 1):
+    if n % d == 0:
+        print(d)
+        count = count + 1
+if count == 2:
+    print("prime")
+else:
+    print("composite")
+
+# early exit version
+is_prime = n &gt; 1
+for d in range(2, n):
+    if n % d == 0:
+        is_prime = False
+        break</pre>
+<p>Questions to ask: range of candidate divisors (1 to n), test is <code>n % d == 0</code>, counter starts at 0 before the loop, prime has exactly 2 divisors.</p>
+
+<h3>B. Equilateral triangle (ex. 10)</h3>
+<p>See pattern section. Push them to fill the table (spaces, stars per row) before typing. Upside down: reverse the outer range. Extension: box (ex. 11), hollow box, tree (ex. 12).</p>
+</div>
+<div>
+<h3>C. GCF, LCM (ex. 3, 4)</h3>
+<pre>a = int(input("A: "))
+b = int(input("B: "))
+gcf = 1
+for d in range(1, min(a, b) + 1):
+    if a % d == 0 and b % d == 0:
+        gcf = d          # keeps the biggest
+print("GCF:", gcf)
+
+# count-down version with break
+d = min(a, b)
+while d &gt; 0:
+    if a % d == 0 and b % d == 0:
+        break
+    d = d - 1
+
+# LCM by counting multiples of a
+m = a
+while m % b != 0:
+    m = m + a
+print("LCM:", m)
+# or: lcm = a * b // gcf
+# LCM of three (ex. 5): lcm(lcm(a,b), c)</pre>
+<p>If they have not seen <code>min()</code>: use an if to pick the smaller.</p>
+</div>
+</div>
+
+<h2>Post-test solutions</h2>
+<div class="cols">
+<div>
+<pre># 1. n x n multiplication table (ex. 9)
+n = int(input("n: "))
+for i in range(1, n + 1):
+    for j in range(1, n + 1):
+        print(i * j, end="\t")
+    print()
+
+# 2. count primes between n and 2n (ex. 7)
+n = int(input("n: "))
+count = 0
+for x in range(n, 2 * n + 1):
+    if x &lt; 2:
+        continue
+    is_prime = True
+    for d in range(2, x):
+        if x % d == 0:
+            is_prime = False
+            break
+    if is_prime:
+        count = count + 1
+print(count)</pre>
+</div>
+<div>
+<pre># 3. hollow box L wide, W tall (ex. 11)
+L = int(input("L: "))
+W = int(input("W: "))
+for i in range(W):
+    for j in range(L):
+        if i == 0 or i == W-1 or j == 0 or j == L-1:
+            print("X", end="")
+        else:
+            print(" ", end="")
+    print()
+
+# extra: count zeroes (ex. 2)
+n = int(input("n: "))
+zeroes = 0
+for k in range(n):
+    v = int(input())
+    if v == 0:
+        zeroes = zeroes + 1
+print(zeroes)
+
+# extra: first 30 twin primes (ex. 8)
+# loop p from 2 upward, test p and p+2 prime,
+# count pairs, stop at 30</pre>
+</div>
+</div>
+
+<h2>Common student errors to watch for</h2>
+<ul>
+  <li>Forgetting <code>int()</code> on input, then comparing str to int.</li>
+  <li>Off by one: <code>range(1, n)</code> skips n. <code>range(n)</code> starts at 0.</li>
+  <li>Missing <code>print()</code> after the inner loop, so the whole shape is one line.</li>
+  <li>Update line inside the wrong indentation, or missing, so while never ends.</li>
+  <li>Using <code>=</code> inside <code>if</code>.</li>
+  <li>Resetting the counter inside the loop instead of before it.</li>
+</ul>
+<p class="meta">Sources: Abriol-Santos slides (Sequential, Conditional, Iterative Statements), Samaniego sample exercises. Session page: tutor.stimmie.dev/cmsc12</p>
+</body>
+</html>

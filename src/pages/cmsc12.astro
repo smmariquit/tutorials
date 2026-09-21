@@ -1,0 +1,175 @@
+---
+import Layout from '../layouts/Layout.astro';
+const title = 'CMSC 12 Review: Sequential, Conditional, Iterative';
+---
+<Layout title={title} description="One-hour review session for CMSC 12 first lecture exam. Python basics: input, if, loops, pattern printing.">
+<style>
+  body { background: #fbfaf7; color: #222; font-family: system-ui, sans-serif; line-height: 1.6; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 32px 20px 80px; }
+  h1 { font-size: 1.6rem; margin-bottom: 4px; }
+  h2 { font-size: 1.2rem; margin: 40px 0 8px; padding-top: 12px; border-top: 1px solid #ccc; }
+  h3 { font-size: 1rem; margin: 20px 0 4px; }
+  p, li { margin: 6px 0; }
+  ol, ul { padding-left: 22px; }
+  pre { background: #f0efea; padding: 10px 12px; overflow-x: auto; font-size: 0.9rem; margin: 8px 0; }
+  code { font-family: ui-monospace, monospace; font-size: 0.92em; }
+  .meta { color: #666; font-size: 0.9rem; }
+  .time { color: #666; font-weight: normal; font-size: 0.85rem; }
+  .ans { color: #666; font-size: 0.9rem; }
+  details { margin: 8px 0; }
+  summary { cursor: pointer; color: #444; }
+  .print { margin-top: 32px; }
+</style>
+<div class="wrap">
+  <h1>CMSC 12 Review</h1>
+  <p class="meta">First lecture exam coverage: sequential, conditional, iterative statements (Python). Prof. Albacea section. Slides by K. Abriol-Santos, exercises by J. Samaniego.</p>
+  <p class="meta">Plan: pre-test 5 min, discussion 10 min, guided problems 25 min, post-test 15 min. <a href="/cmsc12-cheatsheet.pdf">Cheat sheet (PDF)</a></p>
+
+  <h2>1. Pre-test <span class="time">5 min, on paper, no laptop</span></h2>
+  <p>Write the output. If it errors, say why.</p>
+
+  <h3>Q1</h3>
+<pre><code>x = input("Enter: ")   # user types 7
+print(x + 1)</code></pre>
+
+  <h3>Q2</h3>
+<pre><code>n = 12
+if n % 2 == 0:
+    if n % 3 == 0:
+        print("both")
+    else:
+        print("two only")
+else:
+    print("not two")</code></pre>
+
+  <h3>Q3</h3>
+<pre><code>for i in range(5, 0, -1):
+    print(i, end=" ")</code></pre>
+
+  <h3>Q4</h3>
+<pre><code>for i in range(3):
+    for j in range(i + 1):
+        print("*", end="")
+    print()</code></pre>
+
+  <h3>Q5</h3>
+<pre><code>counter = 1
+product = 2
+while counter < 4:
+    product = product * 2
+    counter = counter + 1
+print(product)</code></pre>
+  <p class="ans">How many times did the loop body run?</p>
+
+  <h2>2. Discussion <span class="time">10 min</span></h2>
+
+  <h3>Sequential: input, assignment, output</h3>
+  <ul>
+    <li><code>input()</code> always returns a string. Wrap it: <code>int(input())</code> or <code>float(input())</code>.</li>
+    <li>Assignment <code>=</code> stores. Comparison <code>==</code> asks.</li>
+    <li><code>print(a, b)</code> puts a space between. <code>print("X", end="")</code> stays on the same line. <code>print()</code> alone gives a newline.</li>
+    <li>Cylinder example from the slides: read r and h, compute pieces one line at a time, print at the end.</li>
+  </ul>
+
+  <h3>Conditional: if, elif, else</h3>
+<pre><code>if n &lt; 0:
+    print("Negative")
+elif n &gt; 0:
+    print("Positive")
+else:
+    print("Zero")</code></pre>
+  <ul>
+    <li>Only one branch of an if/elif/else chain runs. Order matters.</li>
+    <li><code>%</code> is remainder. <code>n % 2 == 0</code> means even, <code>n % d == 0</code> means d divides n.</li>
+    <li>Nested if: divisible-by-2-and-3 problem. Outer checks 2, inner checks 3. Four outcomes.</li>
+    <li>Combine tests: <code>and</code>, <code>or</code>, <code>not</code>.</li>
+  </ul>
+
+  <h3>Iterative: while and for</h3>
+<pre><code>i = n                  # 1. start
+while i &gt; 0:           # 2. keep going while
+    print(i)
+    i = i - 1          # 3. update, or it never ends
+
+for i in range(n, 0, -1):   # same thing
+    print(i)</code></pre>
+  <ul>
+    <li><code>range(start, stop, step)</code>: stop is not included. <code>range(5)</code> is 0 to 4. <code>range(1, 6)</code> is 1 to 5.</li>
+    <li>Use <code>while</code> when you do not know how many times (guess the number, square root). Use <code>for</code> when you do.</li>
+    <li><code>break</code> leaves the loop now. <code>while True:</code> plus <code>break</code> is the "loop until correct" pattern.</li>
+    <li>Nested loops draw shapes. Outer loop = rows. Inner loop = characters in one row. <code>print()</code> after the inner loop ends the row.</li>
+  </ul>
+
+  <h3>Pattern recipe (the part Alexandra asked for)</h3>
+  <p>Draw the shape for n = 4 on paper first. For each row, count two things: leading spaces and characters. Find the formula in terms of the row number i (starting at 0). Then write it.</p>
+<pre><code>row i:  spaces = n - 1 - i     stars = 2 * i + 1
+
+n = int(input("Height: "))
+for i in range(n):
+    for s in range(n - 1 - i):
+        print(" ", end="")
+    for k in range(2 * i + 1):
+        print("*", end="")
+    print()
+
+# shortcut once the loops make sense:
+for i in range(n):
+    print(" " * (n - 1 - i) + "*" * (2 * i + 1))</code></pre>
+
+  <h2>3. Guided problems <span class="time">25 min, they type, you ask</span></h2>
+  <p>Do not give code. Ask the question, wait, let them write. Three problems from the sample exercises sheet.</p>
+
+  <h3>Problem A. Divisors, then prime (exercises 1 and 6)</h3>
+  <p>Input an integer n, print all divisors of n. Then: decide if n is prime or composite.</p>
+  <ol>
+    <li>What is the smallest number that could divide n? The biggest?</li>
+    <li>How do you test in Python whether d divides n exactly?</li>
+    <li>So which loop, and over what range?</li>
+    <li>Now instead of printing each divisor, count them. What do you need before the loop?</li>
+    <li>A prime has exactly how many divisors? Write the if after the loop.</li>
+    <li>Faster idea: is there a divisor between 2 and n-1? If yes, composite. Can you stop early?</li>
+  </ol>
+
+  <h3>Problem B. Equilateral triangle of height n (exercise 10, Alexandra's request)</h3>
+  <p>Input n, draw a centered triangle of chars of height n.</p>
+  <ol>
+    <li>Draw it for n = 4. Number the rows 0, 1, 2, 3.</li>
+    <li>How many stars in each row? Write the four numbers. What is the formula?</li>
+    <li>How many spaces before the stars in each row? Formula?</li>
+    <li>Outer loop goes over what? Inner loops print what?</li>
+    <li>What goes after the inner loops so the next row starts on a new line?</li>
+    <li>Change one line to make it upside down. Which line?</li>
+    <li>Follow-up if fast: box L by W (exercise 11), then hollow box, then Christmas tree (exercise 12) is just triangles stacked.</li>
+  </ol>
+
+  <h3>Problem C. Greatest common factor, then LCM (exercises 3 and 4)</h3>
+  <p>Input A and B, find the biggest integer that divides both.</p>
+  <ol>
+    <li>A common factor can be at most how big? (Hint: compare A and B.)</li>
+    <li>How do you test that d divides both A and B in one condition?</li>
+    <li>Loop up from 1 and keep overwriting a variable each time the test passes. What is left at the end?</li>
+    <li>Or loop down from the max. What do you do when the test first passes?</li>
+    <li>LCM: what is the smallest number that is a multiple of both? Try counting up multiples of A. When do you stop?</li>
+    <li>Shortcut: A times B divided by the GCF. Why does that work?</li>
+  </ol>
+
+  <h2>4. Post-test <span class="time">15 min, laptop, no help</span></h2>
+  <ol>
+    <li><strong>Multiplication table.</strong> Input n, print an n by n multiplication table, one row per line. (exercise 9)</li>
+    <li><strong>Primes in a range.</strong> Input n, print how many primes are between n and 2n. (exercise 7) Reuse Problem A.</li>
+    <li><strong>Hollow box.</strong> Input L and W, draw a box L chars long and W chars tall, border only. (exercise 11, hollow-square idea from the slides)</li>
+  </ol>
+  <p>If they finish early: count zeroes in a list of n inputs (exercise 2), or twin primes (exercise 8).</p>
+
+  <details class="print">
+    <summary>Pre-test answers (tutor only)</summary>
+    <ol>
+      <li>TypeError. <code>x</code> is the string "7", cannot add int to str. Fix: <code>int(input())</code>.</li>
+      <li><code>both</code></li>
+      <li><code>5 4 3 2 1</code></li>
+      <li>Three rows: <code>*</code>, <code>**</code>, <code>***</code></li>
+      <li><code>16</code>. Body ran 3 times (counter 1, 2, 3).</li>
+    </ol>
+  </details>
+</div>
+</Layout>
